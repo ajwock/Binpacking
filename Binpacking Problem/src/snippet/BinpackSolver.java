@@ -1,4 +1,7 @@
 package snippet;
+
+import java.io.IOException;
+
 /**
  * Handles the main method, as well as the output of information concerning the
  * knapsack.
@@ -8,7 +11,7 @@ package snippet;
  */
 public class BinpackSolver {
 	/** The knapsack that's to be solved */
-	static Knapsack original;
+	static BinManager original;
 	/** The start time of the chosen heuristic */
 	static long startTime;
 	/** The total amount of time that the chosen heuristic took to finish running */
@@ -65,7 +68,7 @@ public class BinpackSolver {
 					+ "The third and final parameter is optional. Simply type '-q' if you don't wish for the list of all items included vertices in the\n"
 					+ "cover to be printed.");
 		}
-		KnapsackSolver.outputInfo(args[0]);
+		BinpackSolver.outputInfo(args[0]);
 	}
 
 	/**
