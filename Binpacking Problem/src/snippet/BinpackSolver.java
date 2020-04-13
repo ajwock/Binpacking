@@ -106,9 +106,7 @@ public class BinpackSolver {
 		System.out.println("filename	" + inputFile);
 		System.out.println("items		" + original.getNumItems());
 		System.out.println("capacity	" + original.getCapacity());
-		System.out.println("packed 		" + original.getPacked());
-		System.out.println("value 		" + original.getValue());
-		System.out.println("weight 		" + original.getWeight());
+		System.out.println("bins 		" + original.getNumBins());
 		System.out.print("mode		");
 		// Prints out the chosen heuristic
 		if (heuristic.equalsIgnoreCase("plain")) {
