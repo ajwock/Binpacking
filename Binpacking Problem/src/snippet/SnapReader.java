@@ -34,7 +34,7 @@ public class SnapReader {
 				// Skips lines with comments
 				if (scan.findInLine("#") == null) {
 					if (scan.hasNext("k")) {
-						String temp = scan.next("k");
+						scan.next("k");
 					}
 					if (scan.hasNextInt()) {
 						numItems = scan.nextInt();

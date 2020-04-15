@@ -2,50 +2,30 @@ package snippet;
 
 import java.util.ArrayList;
 
-public class Bin {
-	/** The capacity of the bin */
-	private int cap;
-	/** The total weight of items that are currently stored in this bin */
-	private int weight;
+public class Bin implements Cloneable{
+	/** The remaining space of the bin */
+	private int remainingSpace;
 	/** The total number of items that are currently packed in the bin */
 	private int packed;
 	/** An ArrayList of items in this bin */
 	ArrayList<Item> packedList;
 
 	Bin(int capacity) {
-		cap = capacity;
 		packedList = new ArrayList<Item>();
-		packed = 0;
-		weight = 0;
+		remainingSpace = capacity;
 	}
 
 	public int remainingSpace() {
-		return cap-weight;
-	}
-	
-	private int gotSpace(int itemWeight) {
-		int free = cap - weight;
-		if (free >= itemWeight) {
-			return free;
-		} else {
-			return -1;
-		}
+		return remainingSpace;
 	}
 
 	public void addItem(Item g) {
-		if (gotSpace(g.getWeight()) != -1) {
-			this.weight += g.getWeight();
-			packedList.add(g);
-			packed++;
-		}
+		packedList.add(g);
+		packed++;
+		remainingSpace -= g.getWeight();
 	}
 
 	public int getPacked() {
 		return this.packed;
 	}
-
-	public int getWeight() {
-		return weight;
-	}
-
 }

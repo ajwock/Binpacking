@@ -36,7 +36,7 @@ public class BinManager {
 		numItems = items;
 		this.items = new Item[items];
 	}
-
+	
 	public int getCapacity() {
 		return this.capacity;
 	}
