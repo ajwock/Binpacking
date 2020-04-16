@@ -12,9 +12,16 @@ public class Branching {
 		return 0;
 	}
 
-	void branch(Node node) {
+	void branch(Node node) throws OptimalSolutionException {
 		for (Node newBranch : node) {
-			if (node.getLowerBound() < getUpperBound()) {
+			if (node.isLeaf()) {
+				break;
+			}
+
+			int lb = node.getLowerBound();
+			int ub = node.getUpperBound();
+
+			if (lb < ub) {
 				branch(node);
 			}
 		}

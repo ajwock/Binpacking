@@ -1,19 +1,30 @@
 package snippet;
 
 import java.util.ArrayList;
+import java.lang.Integer;
 
-public class Bin implements Cloneable{
+public class Bin {
 	/** The remaining space of the bin */
-	private int remainingSpace;
+	private Integer remainingSpace;
 	/** The total number of items that are currently packed in the bin */
-	private int packed;
+	private Integer packed;
 	/** An ArrayList of items in this bin */
-	ArrayList<Item> packedList;
+	private ArrayList<Item> packedList;
 
 	Bin(int capacity) {
 		packedList = new ArrayList<Item>();
 		remainingSpace = capacity;
 	}
+	
+	@SuppressWarnings({ "deprecation", "unchecked" })
+	Bin(Bin bin) {
+		//Intentional copy-by-value use of Integer constructor.
+		this.remainingSpace = new Integer(bin.remainingSpace.intValue());
+		this.packed = new Integer(bin.packed.intValue());
+		this.packedList = (ArrayList<Item>) bin.packedList.clone();
+	}
+
+
 
 	public int remainingSpace() {
 		return remainingSpace;
@@ -28,4 +39,5 @@ public class Bin implements Cloneable{
 	public int getPacked() {
 		return this.packed;
 	}
+
 }
