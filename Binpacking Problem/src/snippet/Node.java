@@ -14,7 +14,7 @@ public class Node implements Iterable<Node>, Iterator<Node> {
 	/** The level of the tree that this node is at. Each level represents an item */
 	int level;
 	/** The upper bound of the branch this node represents */
-	int bound;
+	double bound;
 	
 	BinPackingModel problem;
 	
@@ -42,6 +42,7 @@ public class Node implements Iterable<Node>, Iterator<Node> {
 	 * @param weight the given weight
 	 */
 	Node(BinPackingModel problem, ArrayList<Bin> bins, int lvl) {
+		this.problem = problem;
 		binList = bins;
 		level = lvl;
 		bound = 0;
@@ -58,7 +59,7 @@ public class Node implements Iterable<Node>, Iterator<Node> {
 		level = l;
 	}
 
-	public int getLowerBound() {
+	public double getLowerBound() {
 		return bound;
 	}
 
@@ -93,7 +94,7 @@ public class Node implements Iterable<Node>, Iterator<Node> {
 	public Node next() {
 		Bin bin = nextBin();
 		if (bin != null) {
-			return new Node(binListClone(), level + 1);
+			return new Node(problem, binListClone(), level + 1);
 		} else if (!done) {
 			//Create new bin.
 			done = true;

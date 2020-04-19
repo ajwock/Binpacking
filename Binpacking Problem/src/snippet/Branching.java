@@ -18,8 +18,8 @@ public class Branching {
 				break;
 			}
 
-			int lb = node.getLowerBound();
-			int ub = node.getUpperBound();
+			double lb = node.getLowerBound();
+			double ub = node.getUpperBound();
 
 			if (lb < ub) {
 				branch(node);
