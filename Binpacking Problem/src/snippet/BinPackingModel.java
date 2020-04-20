@@ -13,10 +13,10 @@ public class BinPackingModel {
 	 * The "goodness" of a solution is inversely proportional to how large it is.
 	 * The upper bound for how good the optimal solution would be the best solution found so far.
 	 * 
-	 * @return
+	 * @return The upper bound.
 	 */
 	public int getUpperBound() {
-		return 0;
+		return upperBound;
 	}
 	
 	public void trySetUpperBound(int ub) {
@@ -33,5 +33,9 @@ public class BinPackingModel {
 
 	public int bestSolutionValue() {
 		return solutionValue;
+	}
+	
+	public List<Bin> getSolution() {
+		return solution;
 	}
 }

@@ -13,9 +13,10 @@ public class Bin {
 	/** TODO: Change to position.  For now will be an index. **/
 	private Integer position;
 
-	Bin(int capacity) {
+	Bin(int capacity, int position) {
 		packedList = new ArrayList<Item>();
 		remainingSpace = capacity;
+		this.position = position;
 	}
 	
 	@SuppressWarnings({ "deprecation", "unchecked" })

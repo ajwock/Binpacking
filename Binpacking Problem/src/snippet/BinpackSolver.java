@@ -19,7 +19,7 @@ public class BinpackSolver {
 	/** True if the items in the solution should be printed out, false otherwise */
 	static boolean pVertices = true;
 	/** The chosen heuristic to run for this program */
-	static String heuristic = "";
+	static String heuristic = "plain";
 
 	/**
 	 * Takes the given input file, and creates a knapsack using the chosen
@@ -90,7 +90,7 @@ public class BinpackSolver {
 	 */
 	private static long tuned() {
 		startTime = System.currentTimeMillis();
-		long k = original.tuned();
+		long k = 0;//original.tuned();
 		totalTime = System.currentTimeMillis() - startTime;
 		return k;
 	}
@@ -116,12 +116,5 @@ public class BinpackSolver {
 		}
 		System.out.println("runtime  	" + totalTime);
 		System.out.println("branches 	" + original.getBranches());
-		if (pVertices) {
-			Set<Integer> stored = original.getStored();
-			Iterator<Integer> storedIDs = stored.iterator();
-			while (storedIDs.hasNext()) {
-				System.out.println("i- " + storedIDs.next());
-			}
-		}
 	}
 }

@@ -1,29 +1,26 @@
 package snippet;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import edu.ncsu.csc316.dsa.queue.ArrayBasedQueue;
-import edu.ncsu.csc316.dsa.queue.Queue;
-
 public class Branching {
+
+	int branches;
 	
-	int getUpperBound() {
-		return 0;
+	public Branching() {
+		branches = 0;
 	}
-
+	
 	void branch(Node node) throws OptimalSolutionException {
+		branches++;
 		for (Node newBranch : node) {
-			if (newBranch.isLeaf()) {
-				break;
+			if (!newBranch.isLeaf()) {
+				int lb = newBranch.lowerBound();
+				int ub = newBranch.upperBound();
+	
+				if (lb < ub) {
+					branch(newBranch);
+				}
 			}
-      
-			int lb = newBranch.lowerBound();
-			int ub = newBranch.upperBound();
-
-			if (lb < ub) {
-				branch(newBranch);
-			}
+			//More advanced nodes may want to be able to restore shared resources.
+			node.destructor();
 		}
 	}
 

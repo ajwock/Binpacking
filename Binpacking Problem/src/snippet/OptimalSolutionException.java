@@ -12,9 +12,14 @@ package snippet;
  */
 public class OptimalSolutionException extends Exception {
 
+	BinPackingSolution solution;
 	
-	public OptimalSolutionException(Node node) {
-		// TODO Auto-generated constructor stub
+	public OptimalSolutionException(BinPackingSolution sln) {
+		solution = sln;
+	}
+	
+	public BinPackingSolution getSolution() {
+		return solution;
 	}
 
 	/**

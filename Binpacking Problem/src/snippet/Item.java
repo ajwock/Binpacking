@@ -1,6 +1,6 @@
 package snippet;
 
-public class Item implements Comparable<Item>, Hashable {
+public class Item implements Comparable<Item> {
 	/** The weight of this item*/
 	public int weight;
 	/** The ratio of the item's value over the weight */
