@@ -17,7 +17,7 @@ public class Branching {
 			if (newBranch.isLeaf()) {
 				break;
 			}
-
+      
 			int lb = newBranch.lowerBound();
 			int ub = newBranch.upperBound();
 

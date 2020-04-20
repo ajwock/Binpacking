@@ -18,6 +18,7 @@ public class Node extends BinPackingInstance implements Iterable<Node>, Iterator
 	int binSize;
 	BinPackingModel model;
 	BinPackingInstance problem;
+
 	Item item;
 	
 	ArrayList<Bin> binList;
