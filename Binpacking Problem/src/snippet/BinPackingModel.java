@@ -2,6 +2,9 @@ package snippet;
 
 import java.util.List;
 
+/**
+ * Keeps track of the global upper bound.
+ */
 public class BinPackingModel {
 
 	public List<Bin> solution;
@@ -39,3 +42,5 @@ public class BinPackingModel {
 		return solution;
 	}
 }
+
+//  [Last modified: 2020 04 20 at 15:10:38 GMT]
