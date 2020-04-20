@@ -25,7 +25,7 @@ public class Node extends BinPackingInstance implements Iterable<Node>, Iterator
 	
 	ArrayList<Item> itemList;
 	
-	ListIterator<Bin> binsListIterator;
+	int binIndex;
 	Bin nextBin;
 	boolean done;
 	boolean isLeaf;
@@ -75,12 +75,14 @@ public class Node extends BinPackingInstance implements Iterable<Node>, Iterator
 		this.problem = problem;
 		this.model = model;
 		binList = (ArrayList<Bin>) problem.binList();
-		binsListIterator = binList.listIterator();
+		binIndex = 0;
 		itemList = (ArrayList<Item>) problem.itemList();
 		binSize = problem.binSize();
 		this.hueristic = hueristic;
 		this.remainingItemWeight = remainingItemWeight;
 		this.remainingSpace = remainingSpace;
+		upperBound = -1;
+		lowerBound = -1;
 
 		for (Change change : changes) {
 			change.applyChange(this);
@@ -89,6 +91,7 @@ public class Node extends BinPackingInstance implements Iterable<Node>, Iterator
 		isLeaf = itemList.size() == 0;
 		if (!isLeaf) {
 			item = itemList.get(0);
+			nextBin();
 		} else {
 			done = true;
 			item = null;
@@ -96,7 +99,6 @@ public class Node extends BinPackingInstance implements Iterable<Node>, Iterator
 		}
 
 		level = lvl;
-		nextBin();
 	}
 	
 	/**
@@ -165,8 +167,8 @@ public class Node extends BinPackingInstance implements Iterable<Node>, Iterator
 		if (upperBound == -1) {
 			//Apply an appromixation hueristic to the remaining instance.
 			Node temp = new Node(this, model, level, hueristic, remainingItemWeight, remainingSpace);
-			hueristic.apply(temp);
-			int ub = temp.binList.size();
+			List<Bin> result = hueristic.apply(temp);
+			int ub = result.size();
 			model.trySetUpperBound(ub);
 			upperBound = model.getUpperBound();
 		}
@@ -177,7 +179,7 @@ public class Node extends BinPackingInstance implements Iterable<Node>, Iterator
 	public int lowerBound() {
 		if (lowerBound == -1) {
 			int difference = remainingItemWeight - remainingSpace;
-			int minExtraBins = (int) Math.ceil((double) difference / binSize());
+			int minExtraBins = difference > 0 ? (int) Math.ceil((double) difference / binSize()) : 0;
 			lowerBound = minExtraBins + binList.size();
 		}
 		return lowerBound;
@@ -207,7 +209,9 @@ public class Node extends BinPackingInstance implements Iterable<Node>, Iterator
 	public void addToNewBin(Item addition) {
 		invalidateBounds();
 		remainingSpace += binSize();
-		binList.add(new Bin(binSize(), binList.size()));
+		Bin newBin = new Bin(binSize(), binList.size());
+		newBin.addItem(addition);
+		binList.add(newBin);
 	}
 	
 	@Override
@@ -222,15 +226,18 @@ public class Node extends BinPackingInstance implements Iterable<Node>, Iterator
 
 	public Bin nextBin() {
 		Bin currBin = nextBin;
-		while (binsListIterator.hasNext()) {
-			nextBin = binsListIterator.next();
+		while (binIndex != binList.size()) {
+			nextBin = binList.get(binIndex);
+			binIndex++;
 			if (item.getWeight() <= nextBin.remainingSpace())
 				break;
 		}
-		if (!binsListIterator.hasNext()) {
+		if (binIndex == binList.size()) {
 			nextBin = null;
 		}
 		return currBin;
+		
+		
 	}
 	
 	@Override
@@ -239,11 +246,11 @@ public class Node extends BinPackingInstance implements Iterable<Node>, Iterator
 		ArrayList<Change> changes = new ArrayList<Change>(1);
 		if (bin != null) {
 			changes.add(new AddToBin(bin, item));
-			return new Node(this.problem, this.model, level + 1, changes, hueristic, remainingItemWeight, remainingSpace);
+			return new Node(this, this.model, level + 1, changes, hueristic, remainingItemWeight, remainingSpace);
 		} else if (!done) {
 			done = true;
 			changes.add(new NewBin(item));
-			return new Node(this.problem, this.model, level + 1, changes, hueristic, remainingItemWeight, remainingSpace);
+			return new Node(this, this.model, level + 1, changes, hueristic, remainingItemWeight, remainingSpace);
 		}
 		throw new NoSuchElementException();
 	}
