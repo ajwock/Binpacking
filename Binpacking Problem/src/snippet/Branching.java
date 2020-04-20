@@ -14,15 +14,15 @@ public class Branching {
 
 	void branch(Node node) throws OptimalSolutionException {
 		for (Node newBranch : node) {
-			if (node.isLeaf()) {
+			if (newBranch.isLeaf()) {
 				break;
 			}
 
-			int lb = node.getLowerBound();
-			int ub = node.getUpperBound();
+			int lb = newBranch.lowerBound();
+			int ub = newBranch.upperBound();
 
 			if (lb < ub) {
-				branch(node);
+				branch(newBranch);
 			}
 		}
 	}
