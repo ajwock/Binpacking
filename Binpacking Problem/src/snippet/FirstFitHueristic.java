@@ -8,10 +8,10 @@ public class FirstFitHueristic extends BinPackingHueristic {
 
 	private List<Bin> unrefined(BinPackingInstance instance) {
 		List<Bin> binList = instance.binList();
-		Queue<Item> itemQueue = (Queue<Item>) new ArrayList(instance.itemList());
+		List<Item> itemQueue = new ArrayList<Item>(instance.itemList());
 		int binSize = instance.binSize();
 		while (!itemQueue.isEmpty()) {
-			Item item = itemQueue.remove();
+			Item item = itemQueue.remove(itemQueue.size() - 1);
 			boolean placed = false;
 			for (Bin bin : binList) {
 				if (item.getWeight() < bin.remainingSpace()) {

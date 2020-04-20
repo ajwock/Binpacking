@@ -15,6 +15,7 @@ public class Bin {
 
 	Bin(int capacity, int position) {
 		packedList = new ArrayList<Item>();
+		packed = 0;
 		remainingSpace = capacity;
 		this.position = position;
 	}
