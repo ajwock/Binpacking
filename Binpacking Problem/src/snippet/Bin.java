@@ -10,6 +10,8 @@ public class Bin {
 	private Integer packed;
 	/** An ArrayList of items in this bin */
 	private ArrayList<Item> packedList;
+	/** TODO: Change to position.  For now will be an index. **/
+	private Integer position;
 
 	Bin(int capacity) {
 		packedList = new ArrayList<Item>();
@@ -21,13 +23,22 @@ public class Bin {
 		//Intentional copy-by-value use of Integer constructor.
 		this.remainingSpace = new Integer(bin.remainingSpace.intValue());
 		this.packed = new Integer(bin.packed.intValue());
+		this.position = new Integer(bin.position.intValue());
 		this.packedList = (ArrayList<Item>) bin.packedList.clone();
 	}
 
 
 
-	public int remainingSpace() {
-		return remainingSpace;
+	public Integer remainingSpace() {
+		return this.remainingSpace;
+	}
+	
+	public Integer getPacked() {
+		return this.packed;
+	}
+	
+	public Integer getPosition() {
+		return this.position;
 	}
 
 	public void addItem(Item g) {
@@ -36,8 +47,11 @@ public class Bin {
 		remainingSpace -= g.getWeight();
 	}
 
-	public int getPacked() {
-		return this.packed;
+	/**
+	 * Interestingly, this hashCode can change since the remainingSpace can change as well.  However, this is relevant to the hueristic where we don't check
+	 * bins with the same amount of remaining space for a branch.
+	 */
+	public int hashCode() {
+		return remainingSpace();
 	}
-
 }

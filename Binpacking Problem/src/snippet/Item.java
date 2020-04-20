@@ -1,6 +1,6 @@
 package snippet;
 
-public class Item implements Comparable<Item>{
+public class Item implements Comparable<Item>, Hashable {
 	/** The weight of this item*/
 	public int weight;
 	/** The ratio of the item's value over the weight */
@@ -36,5 +36,25 @@ public class Item implements Comparable<Item>{
 			return -1;
 		}
 		return 0;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof Item)) {
+			return false;
+		}
+		Item other = (Item) o;
+		if (this.compareTo(other) == 0) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * A perfect hash, particularly for sets.  Effective equality is determined exactly by this hash.
+	 */
+	@Override
+	public int hashCode() {
+		return getWeight();
 	}
 }
