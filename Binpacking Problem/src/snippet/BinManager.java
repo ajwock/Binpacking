@@ -3,9 +3,6 @@ package snippet;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.ncsu.csc316.dsa.queue.ArrayBasedQueue;
-import edu.ncsu.csc316.dsa.queue.Queue;
-
 /**
  * Handles the nodes at which the knapsack branches at
  * 
