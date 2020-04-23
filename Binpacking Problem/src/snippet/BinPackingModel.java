@@ -35,7 +35,7 @@ public class BinPackingModel {
 			trySetUpperBound(solutionValue);
 		}
 	}
-
+	
 	public int bestSolutionValue() {
 		return solutionValue;
 	}
