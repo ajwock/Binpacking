@@ -1,4 +1,6 @@
-package snippet;
+package binpacking;
+
+import binpacking.interfaces.BranchingNode;
 
 public class Branching {
 

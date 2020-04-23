@@ -1,7 +1,9 @@
-package snippet;
+package binpacking;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import binpacking.interfaces.BinPackingInstance;
 
 /**
  * Handles the nodes at which the knapsack branches at

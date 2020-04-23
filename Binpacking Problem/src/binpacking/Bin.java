@@ -1,4 +1,4 @@
-package snippet;
+package binpacking;
 
 import java.util.ArrayList;
 import java.lang.Integer;

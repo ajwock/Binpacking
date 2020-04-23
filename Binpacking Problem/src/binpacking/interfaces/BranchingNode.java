@@ -1,4 +1,4 @@
-package snippet;
+package binpacking.interfaces;
 
 import java.util.Iterator;
 

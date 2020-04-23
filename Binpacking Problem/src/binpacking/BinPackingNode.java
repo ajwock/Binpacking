@@ -1,10 +1,16 @@
-package snippet;
+package binpacking;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
+
+import binpacking.interfaces.BinPackingInstance;
+import binpacking.interfaces.BinPackingSolution;
+import binpacking.interfaces.BranchingNode;
+import binpacking.interfaces.Change;
+import binpacking.interfaces.MutableBinPackingInstance;
 
 /**
  * Handles the nodes at which the knapsack branches at

@@ -1,4 +1,6 @@
-package snippet;
+package binpacking;
+
+import binpacking.interfaces.BinPackingSolution;
 
 /**
  * Exception used to indicate that an optimal solution has been detected.

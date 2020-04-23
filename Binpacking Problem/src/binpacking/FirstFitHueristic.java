@@ -1,8 +1,13 @@
-package snippet;
+package binpacking;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
+
+import binpacking.interfaces.BinPackingInstance;
+import binpacking.interfaces.BinPackingSolution;
+import binpacking.interfaces.DynamicBinPackingInstance;
+import binpacking.interfaces.MutableBinPackingInstance;
 
 public class FirstFitHueristic extends BinPackingHueristic {
 

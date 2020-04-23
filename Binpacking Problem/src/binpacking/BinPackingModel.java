@@ -1,6 +1,8 @@
-package snippet;
+package binpacking;
 
 import java.util.List;
+
+import binpacking.interfaces.BinPackingSolution;
 
 /**
  * Keeps track of the global upper bound.

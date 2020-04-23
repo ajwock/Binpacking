@@ -1,4 +1,7 @@
-package snippet;
+package binpacking.interfaces;
+
+import binpacking.Bin;
+import binpacking.Item;
 
 /**
  * Interface that represents an instance of the Bin Packing problem.

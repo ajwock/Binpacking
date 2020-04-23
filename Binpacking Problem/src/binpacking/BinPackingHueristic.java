@@ -1,6 +1,9 @@
-package snippet;
+package binpacking;
 
 import java.util.List;
+
+import binpacking.interfaces.BinPackingInstance;
+import binpacking.interfaces.BinPackingSolution;
 
 public abstract class BinPackingHueristic {
 

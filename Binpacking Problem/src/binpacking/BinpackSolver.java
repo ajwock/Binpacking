@@ -1,4 +1,4 @@
-package snippet;
+package binpacking;
 
 import java.io.IOException;
 import java.util.Iterator;

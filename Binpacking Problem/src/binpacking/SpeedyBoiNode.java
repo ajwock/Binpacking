@@ -1,10 +1,16 @@
 /**
  * 
  */
-package snippet;
+package binpacking;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import binpacking.interfaces.BinPackingInstance;
+import binpacking.interfaces.BinPackingSolution;
+import binpacking.interfaces.Change;
+import binpacking.interfaces.DynamicBinPackingInstance;
+import binpacking.interfaces.MutableBinPackingInstance;
 
 /**
  * @author dzdt
@@ -53,7 +59,7 @@ public class SpeedyBoiNode extends BinPackingNode implements DynamicBinPackingIn
 	public void popChangeFrame() {
 		List<Change<MutableBinPackingInstance>> poppedChanges = changeList.remove(changeList.size() - 1);
 		while (!poppedChanges.isEmpty()) {
-			poppedChanges.remove(changeList.size() - 1).reverseChange(this);
+			poppedChanges.remove(poppedChanges.size() - 1).reverseChange(this);
 		}
 		if (changeList.isEmpty()) {
 			currentFrame = null;

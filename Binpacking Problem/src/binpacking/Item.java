@@ -1,4 +1,4 @@
-package snippet;
+package binpacking;
 
 public class Item implements Comparable<Item> {
 	/** The weight of this item*/

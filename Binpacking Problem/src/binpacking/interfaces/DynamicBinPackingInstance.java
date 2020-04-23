@@ -1,4 +1,4 @@
-package snippet;
+package binpacking.interfaces;
 
 /**
  * A bin packing instance that can store and revert ordered sequences of changes.
