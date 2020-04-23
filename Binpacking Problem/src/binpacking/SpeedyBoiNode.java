@@ -79,10 +79,11 @@ public class SpeedyBoiNode extends BinPackingNode implements DynamicBinPackingIn
 			/** Pass in the result as a possible solution. */
 			model.checkSolution(result);
 			model.trySetUpperBound(ub);
-			upperBound = model.getUpperBound();
 			//Many changes are applied to create the approximation.
 			//Undo those.
 			this.popChangeFrame();
+			//Changes invalidate bounds, so set the variable last.
+			upperBound = model.getUpperBound();
 		}
 		return upperBound;
 	}

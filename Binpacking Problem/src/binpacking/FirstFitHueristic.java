@@ -21,6 +21,7 @@ public class FirstFitHueristic extends BinPackingHueristic {
 	private BinPackingSolution safe(DynamicBinPackingInstance instance) {
 		List<Item> itemList = instance.itemList();
 		int binSize = instance.binSize();
+		instance.newChangeFrame();
 		for (Item item : itemList) {
 			boolean placed = false;
 			for (Bin bin : instance.binList()) {
