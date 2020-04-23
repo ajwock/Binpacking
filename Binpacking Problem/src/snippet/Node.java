@@ -13,12 +13,14 @@ import java.util.NoSuchElementException;
  *
  */
 public class Node extends BinPackingInstance implements Iterable<Node>, Iterator<Node>, BinPackingSolution {
-	/** The level of the tree that this node is at. Each level represents an item */
+	/** The level of the tree that this node is at. */
 	int level;
+    /** capacity of an empty bin */
 	int binSize;
 	BinPackingModel model;
 	BinPackingInstance problem;
 
+    /** Item that is chosen by the parent instance to create this node */
 	Item item;
 	
 	ArrayList<Bin> binList;
@@ -284,3 +286,5 @@ public class Node extends BinPackingInstance implements Iterable<Node>, Iterator
 	}
 
 }
+
+//  [Last modified: 2020 04 20 at 15:21:32 GMT]

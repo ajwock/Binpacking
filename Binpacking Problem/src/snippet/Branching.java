@@ -8,6 +8,11 @@ public class Branching {
 		branches = 0;
 	}
 	
+    /**
+     * Note: A node is responsible for keeping track of possible children.
+     * The Iterable interface for a Node returns a sequence of choices that
+     * lead to children.
+     */
 	void branch(Node node) throws OptimalSolutionException {
 		branches++;
 		for (Node newBranch : node) {
@@ -25,3 +30,5 @@ public class Branching {
 	}
 
 }
+
+//  [Last modified: 2020 04 20 at 15:30:00 GMT]
