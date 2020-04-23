@@ -48,6 +48,12 @@ public class Bin {
 		packed++;
 		remainingSpace -= g.getWeight();
 	}
+	public void printContents() {
+		System.out.println("  Bin #: " + this.position);
+		for(int i = 0; i < packedList.size(); i++) {
+			System.out.println("		" + packedList.get(i).getItemNum());
+		}
+	}
 
 	/**
 	 * Interestingly, this hashCode can change since the remainingSpace can change as well.  However, this is relevant to the hueristic where we don't check

@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
 /**
  * Handles the nodes at which the knapsack branches at
  * 
- * @author Gabe Reynolds
+ * @author Gabe Reynolds and Drew Wock
  *
  */
 public class BinPackingNode extends BinPackingInstance implements Iterable<Node>, Iterator<Node>, BinPackingSolution, Node {

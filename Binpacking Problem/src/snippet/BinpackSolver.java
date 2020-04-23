@@ -1,6 +1,8 @@
 package snippet;
 
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Handles the main method, as well as the output of information concerning the
@@ -33,48 +35,38 @@ public class BinpackSolver {
 	 */
 	public static void main(String args[]) throws IOException {
 		String inputFile = "";
-		if (args.length >= 2 && args.length <= 3) {
+		if (args.length >= 1 && args.length <= 2) {
 			// The input file
 			inputFile = args[0];
-			// The heuristic
-			heuristic = args[1];
 			// Checks to see if heuristic and input file is correct
 			try {
 				original = SnapReader.readInputFile(inputFile);
 			} catch (Exception e) {
-				System.out.println("Usage: java -jar KnapsackSolver.jar 'path-to-file' 'heuristic' '(optional) -q'\n"
+				System.out.println("Usage: java -jar BinpackSolver.jar 'path-to-file' 'heuristic' '(optional) -q'\n"
 						+ "The first parameter is the name of the input file, with the path to it included.\n"
-						+ "The second parameter is the heuristic, which are as follows:\n" + "		trivial\n"
-						+ "		tuned\n"
-						+ "The third and final parameter is optional. Simply type '-q' if you don't wish for the list of all items included in the\n"
+						+ "The second and final parameter is optional. Simply type '-q' if you don't wish for the list of all items included in the\n"
 						+ "cover to be printed.");
 			}
-			if (heuristic.equalsIgnoreCase("plain")) {
-				plain();
-			} else if (heuristic.equalsIgnoreCase("tuned")) {
-				tuned();
-			}
 			// Checks to see if the vertices in the cover should be printed
-			if (args.length == 3) {
-				if (args[2].equalsIgnoreCase("-q")) {
+			if (args.length == 2) {
+				if (args[1].equalsIgnoreCase("-q")) {
 					pVertices = false;
 				}
 			}
+			BinpackSolver.plain();
 		} else {
-			System.out.println("Usage: java -jar KnapsackSolver.jar 'path-to-file' 'heuristic' '(optional) -q'\n"
+			System.out.println("Usage: java -jar BinpackSolver.jar 'path-to-file' 'heuristic' '(optional) -q'\n"
 					+ "The first parameter is the name of the input file, with the path to it included.\n"
-					+ "The second parameter is the heuristic, which are as follows:\n" + "		trivial\n"
-					+ "		tuned\n"
-					+ "The third and final parameter is optional. Simply type '-q' if you don't wish for the list of all items included vertices in the\n"
+					+ "The second and final parameter is optional. Simply type '-q' if you don't wish for the list of all items included in the\n"
 					+ "cover to be printed.");
 		}
 		BinpackSolver.outputInfo(args[0]);
 	}
 
 	/**
-	 * The implementation of the trivial/plain mode.
+	 * The implementation of the BinpackSolver
 	 * 
-	 * @return the highest value knapsack possible with the given items/knapsack.
+	 * @return the optimal bin packed solution
 	 */
 	private static long plain() {
 		startTime = System.currentTimeMillis();
@@ -83,17 +75,6 @@ public class BinpackSolver {
 		return k;
 	}
 
-	/**
-	 * The implementation of my tuned mode.
-	 * 
-	 * @return the highest value knapsack possible with the given items/knapsack.
-	 */
-	private static long tuned() {
-		startTime = System.currentTimeMillis();
-		long k = 0;//original.tuned();
-		totalTime = System.currentTimeMillis() - startTime;
-		return k;
-	}
 
 	/**
 	 * Used to output information concerning both the solved knapsack, the number of
@@ -109,12 +90,13 @@ public class BinpackSolver {
 		System.out.println("bins 		" + original.getNumBins());
 		System.out.print("mode		");
 		// Prints out the chosen heuristic
-		if (heuristic.equalsIgnoreCase("plain")) {
-			System.out.println("plain");
-		} else if (heuristic.equalsIgnoreCase("tuned")) {
-			System.out.println("tuned");
-		}
 		System.out.println("runtime  	" + totalTime);
 		System.out.println("branches 	" + original.getBranches());
+		if (pVertices) {
+			Iterator<Bin> storedIDs = original.binList().listIterator();
+			while (storedIDs.hasNext()) {
+				storedIDs.next().printContents();
+			}
+		}
 	}
 }
