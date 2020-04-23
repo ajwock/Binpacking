@@ -169,6 +169,13 @@ public class Node extends BinPackingInstance implements Iterable<Node>, Iterator
 			Node temp = new Node(this, model, level, hueristic, remainingItemWeight, remainingSpace);
 			List<Bin> result = hueristic.apply(temp);
 			int ub = result.size();
+			/** Pass in the result as a possible solution. */
+			model.checkSolution(new BinPackingSolution() {	
+				@Override
+				public List<Bin> getSolution() {
+					return result;
+				}
+			});
 			model.trySetUpperBound(ub);
 			upperBound = model.getUpperBound();
 		}

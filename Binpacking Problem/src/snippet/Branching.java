@@ -15,7 +15,7 @@ public class Branching {
 				int lb = newBranch.lowerBound();
 				int ub = newBranch.upperBound();
 	
-				if (lb < ub) {
+				if (lb <= ub) {
 					branch(newBranch);
 				}
 			}
