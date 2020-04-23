@@ -21,7 +21,7 @@ public class BinManager extends BinPackingInstance {
 	private int numItems;
 	/** Handles the bins */
 	ArrayList<Bin> boxOfBins = new ArrayList<Bin>();
-	ArrayList<Node> boxOfNodes = new ArrayList<Node>();
+	ArrayList<BinPackingNode> boxOfNodes = new ArrayList<BinPackingNode>();
 	private int numBins;
 
 	/**
@@ -61,7 +61,7 @@ public class BinManager extends BinPackingInstance {
 
 	public long unrefined() {
 		Branching bnb = new Branching();
-		Node root = new Node(this);
+		BinPackingNode root = new BinPackingNode(this);
 		BinPackingModel model = root.getModel();
 		try {
 			bnb.branch(root);
