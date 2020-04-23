@@ -10,6 +10,6 @@ public abstract class BinPackingHueristic {
 	 * @param instance The instance to approximate on.
 	 * @return The approximate solution.
 	 */
-	public abstract List<Bin> apply(BinPackingInstance instance);
+	public abstract BinPackingSolution apply(BinPackingInstance instance);
 
 }

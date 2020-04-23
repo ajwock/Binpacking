@@ -13,9 +13,9 @@ public class Branching {
      * The Iterable interface for a Node returns a sequence of choices that
      * lead to children.
      */
-	void branch(Node node) throws OptimalSolutionException {
+	void branch(BranchingNode node) throws OptimalSolutionException {
 		branches++;
-		for (Node newBranch : node) {
+		for (BranchingNode newBranch : node) {
 			if (!newBranch.isLeaf()) {
 				int lb = newBranch.lowerBound();
 				int ub = newBranch.upperBound();

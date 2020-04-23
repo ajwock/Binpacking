@@ -6,7 +6,40 @@ import java.util.Queue;
 
 public class FirstFitHueristic extends BinPackingHueristic {
 
-	private List<Bin> unrefined(BinPackingInstance instance) {
+	/**
+	 * Changes the whole instance, but said changes are recorded in DynamicBinPackingInstance style.
+	 * A simple call to popChangeFrame will undo the approximation.
+	 * 
+	 * @param instance The BP instance.
+	 * @return An approximate solution to the BP problem.
+	 */
+	private BinPackingSolution safe(DynamicBinPackingInstance instance) {
+		List<Item> itemList = instance.itemList();
+		int binSize = instance.binSize();
+		for (Item item : itemList) {
+			boolean placed = false;
+			for (Bin bin : instance.binList()) {
+				if (item.getWeight() < bin.remainingSpace()) {
+					instance.pushChange(new MutableBinPackingInstance.AddToBin(bin, item));
+					placed = true;
+					break;
+				}
+			}
+			if (!placed) {
+				instance.pushChange(new MutableBinPackingInstance.NewBin(item));
+			}
+		}
+		return instance;
+	}
+	
+	/**
+	 * This approximation simply clobbers whatever instance is passed into it with the approximation.
+	 * Recommended to use a copy constructor if this is being used for lower bound use.
+	 * 
+	 * @param instance
+	 * @return An approximate solution to the 
+	 */
+	private BinPackingSolution unsafe(BinPackingInstance instance) {
 		List<Bin> binList = instance.binList();
 		List<Item> itemQueue = new ArrayList<Item>(instance.itemList());
 		int binSize = instance.binSize();
@@ -26,12 +59,25 @@ public class FirstFitHueristic extends BinPackingHueristic {
 				binList.add(newBin);
 			}
 		}
-		return binList;
+		BinPackingSolution solved = new BinPackingSolution() {
+				@Override
+				public List<Bin> getSolution() {
+					// TODO Auto-generated method stub
+					return binList;
+				} 
+			};
+		return solved;
 	}
 	
+	
+	
 	@Override
-	public List<Bin> apply(BinPackingInstance instance) {
-		return unrefined(instance);
+	public BinPackingSolution apply(BinPackingInstance instance) {
+		if (instance instanceof DynamicBinPackingInstance) {
+			return safe((DynamicBinPackingInstance) instance);
+		} else {
+			return unsafe(instance);
+		}
 	}
 	
 }

@@ -9,7 +9,7 @@ import java.util.List;
  * @author Gabe Reynolds
  *
  */
-public class BinManager extends BinPackingInstance {
+public class BinManager implements BinPackingInstance {
 
 	/** The capacity of a bin */
 	private int capacity;
@@ -61,7 +61,7 @@ public class BinManager extends BinPackingInstance {
 
 	public long unrefined() {
 		Branching bnb = new Branching();
-		BinPackingNode root = new BinPackingNode(this);
+		BinPackingNode root = new SpeedyBoiNode(this);
 		BinPackingModel model = root.getModel();
 		try {
 			bnb.branch(root);
@@ -87,31 +87,6 @@ public class BinManager extends BinPackingInstance {
 	@Override
 	public int binSize() {
 		return capacity;
-	}
-
-	@Override
-	public int upperBound() {
-		return 0;
-	}
-
-	@Override
-	public int lowerBound() {
-		return 0;
-	}
-
-	@Override
-	public void addToBin(Bin bin, Item addition) {
-
-	}
-
-	@Override
-	public void addToNewBin(Item addition) {
-
-	}
-
-	@Override
-	public void removeItem(Item removal) {
-
 	}
 
 }

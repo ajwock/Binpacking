@@ -2,7 +2,7 @@ package snippet;
 
 import java.util.Iterator;
 
-public interface Node extends Iterator<Node>, Iterable<Node> {
+public interface BranchingNode extends Iterator<BranchingNode>, Iterable<BranchingNode> {
 
 	void destructor();
 	
@@ -12,10 +12,10 @@ public interface Node extends Iterator<Node>, Iterable<Node> {
 
 	int lowerBound();
 
-	Iterator<Node> iterator();
+	Iterator<BranchingNode> iterator();
 
 	boolean hasNext();
 
-	Node next();
+	BranchingNode next();
 
 }

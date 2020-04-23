@@ -43,16 +43,30 @@ public class Bin {
 		return this.position;
 	}
 
-	public void addItem(Item g) {
+	public Integer addItem(Item g) {
 		packedList.add(g);
 		packed++;
 		remainingSpace -= g.getWeight();
+		int itemPosition = packedList.size() - 1;
+		return itemPosition;
 	}
+
+	public Item removeItem(int itemPosition) {
+		Item item = packedList.remove(itemPosition);
+		packed--;
+		remainingSpace += item.getWeight();
+		return item;
+	}
+
 	public void printContents() {
 		System.out.println("  Bin #: " + this.position);
 		for(int i = 0; i < packedList.size(); i++) {
 			System.out.println("		" + packedList.get(i).getItemNum());
 		}
+	}
+	
+	public String toString() {
+		return "(Bin: " + position.toString() + " packedList:" + packedList + " )"; 
 	}
 
 	/**

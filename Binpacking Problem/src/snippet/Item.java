@@ -57,4 +57,8 @@ public class Item implements Comparable<Item> {
 	public int hashCode() {
 		return getWeight();
 	}
+	
+	public String toString() {
+		return "(Item: " + itemNum + " " + weight + ")";
+	}
 }

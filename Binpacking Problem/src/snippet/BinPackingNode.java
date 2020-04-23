@@ -12,7 +12,7 @@ import java.util.NoSuchElementException;
  * @author Gabe Reynolds and Drew Wock
  *
  */
-public class BinPackingNode extends BinPackingInstance implements Iterable<Node>, Iterator<Node>, BinPackingSolution, Node {
+public class BinPackingNode implements MutableBinPackingInstance, Iterable<BranchingNode>, Iterator<BranchingNode>, BinPackingSolution, BranchingNode {
 	/** The level of the tree that this node is at. */
 	int level;
     /** capacity of an empty bin */
@@ -34,7 +34,7 @@ public class BinPackingNode extends BinPackingInstance implements Iterable<Node>
 
 	int upperBound;
 	int lowerBound;
-	private BinPackingHueristic hueristic;
+	BinPackingHueristic hueristic;
 	int remainingItemWeight;
 	int remainingSpace;
 
@@ -59,12 +59,17 @@ public class BinPackingNode extends BinPackingInstance implements Iterable<Node>
 		return newList;
 	}
 	
-	@Override
 	public int binSize() {
 		return binSize;
 	}
 
-
+	public void applyChanges(List<Change<MutableBinPackingInstance>> changes) {
+		for (Change change : changes) {
+			change.applyChange(this);
+		}
+	}
+	
+	
 	/**
 	 * Creates a node with the given problem, model, and level, as well as a list of changes to apply to the instance.
 	 * 
@@ -73,7 +78,7 @@ public class BinPackingNode extends BinPackingInstance implements Iterable<Node>
 	 * @param lvl The level on the tree of this node.
 	 * @param changes The set of changes that make this node different from the previous.
 	 */
-	BinPackingNode(BinPackingInstance problem, BinPackingModel model, int lvl, List<Change> changes, BinPackingHueristic hueristic, int remainingItemWeight, int remainingSpace) {
+	BinPackingNode(BinPackingInstance problem, BinPackingModel model, int lvl, List<Change<MutableBinPackingInstance>> changes, BinPackingHueristic hueristic, int remainingItemWeight, int remainingSpace) {
 		this.problem = problem;
 		this.model = model;
 		binList = (ArrayList<Bin>) problem.binList();
@@ -85,10 +90,8 @@ public class BinPackingNode extends BinPackingInstance implements Iterable<Node>
 		this.remainingSpace = remainingSpace;
 		upperBound = -1;
 		lowerBound = -1;
-
-		for (Change change : changes) {
-			change.applyChange(this);
-		}//TODO Calculate lower bound.
+		
+		applyChanges(changes);
 		
 		isLeaf = itemList.size() == 0;
 		if (!isLeaf) {
@@ -101,6 +104,11 @@ public class BinPackingNode extends BinPackingInstance implements Iterable<Node>
 		}
 
 		level = lvl;
+		
+		for (int i = 0; i < lvl; i++) {
+			System.out.print("--");
+		}
+		System.out.print(binList + "\n");
 	}
 	
 	/**
@@ -111,7 +119,7 @@ public class BinPackingNode extends BinPackingInstance implements Iterable<Node>
 	 * @param lvl The level on the tree of this node.
 	 */
 	BinPackingNode(BinPackingInstance problem, BinPackingModel model, int lvl, int remainingWeight, int remainingSpace) {
-		this(problem, model, lvl, new ArrayList<Change>(0), new FirstFitHueristic(), remainingWeight, remainingSpace);
+		this(problem, model, lvl, new ArrayList<Change<MutableBinPackingInstance>>(0), new FirstFitHueristic(), remainingWeight, remainingSpace);
 	}
 	
 	/**
@@ -122,7 +130,7 @@ public class BinPackingNode extends BinPackingInstance implements Iterable<Node>
 	 * @param lvl The level on the tree of this node.
 	 */
 	BinPackingNode(BinPackingInstance problem, BinPackingModel model, int lvl, BinPackingHueristic hueristic, int remainingWeight, int remainingSpace) {
-		this(problem, model, lvl, new ArrayList<Change>(0), hueristic, remainingWeight, remainingSpace);
+		this(problem, model, lvl, new ArrayList<Change<MutableBinPackingInstance>>(0), hueristic, remainingWeight, remainingSpace);
 	}
 	
 	/**
@@ -133,7 +141,7 @@ public class BinPackingNode extends BinPackingInstance implements Iterable<Node>
 	 * @param lvl The level on the tree of this node.
 	 */
 	BinPackingNode(BinPackingInstance problem, BinPackingModel model, int lvl) {
-		this(problem, model, lvl, new ArrayList<Change>(0), new FirstFitHueristic(), 0, 0);
+		this(problem, model, lvl, new ArrayList<Change<MutableBinPackingInstance>>(0), new FirstFitHueristic(), 0, 0);
 		for (Item item : itemList) {
 			remainingItemWeight += item.getWeight();
 		}
@@ -150,7 +158,7 @@ public class BinPackingNode extends BinPackingInstance implements Iterable<Node>
 	 * @param lvl The level on the tree of this node.
 	 */
 	BinPackingNode(BinPackingInstance problem) {
-		this(problem, new BinPackingModel(), 0, new ArrayList<Change>(0), new FirstFitHueristic(), 0, 0);
+		this(problem, new BinPackingModel(), 0, new ArrayList<Change<MutableBinPackingInstance>>(0), new FirstFitHueristic(), 0, 0);
 		for (Item item : itemList) {
 			remainingItemWeight += item.getWeight();
 		}
@@ -170,15 +178,11 @@ public class BinPackingNode extends BinPackingInstance implements Iterable<Node>
 		if (upperBound == -1) {
 			//Apply an appromixation hueristic to the remaining instance.
 			BinPackingNode temp = new BinPackingNode(this, model, level, hueristic, remainingItemWeight, remainingSpace);
-			List<Bin> result = hueristic.apply(temp);
-			int ub = result.size();
+			BinPackingSolution result = hueristic.apply(temp);
+			List<Bin> solutionList = result.getSolution();
+			int ub = solutionList.size();
 			/** Pass in the result as a possible solution. */
-			model.checkSolution(new BinPackingSolution() {	
-				@Override
-				public List<Bin> getSolution() {
-					return result;
-				}
-			});
+			model.checkSolution(result);
 			model.trySetUpperBound(ub);
 			upperBound = model.getUpperBound();
 		}
@@ -208,11 +212,11 @@ public class BinPackingNode extends BinPackingInstance implements Iterable<Node>
 	}
 
 	@Override
-	public void addToBin(Bin bin, Item addition) {
+	public int addToBin(Bin bin, Item addition) {
 		invalidateBounds();
 		Bin localBin = binList.get(bin.getPosition());
 		remainingSpace -= addition.getWeight();
-		localBin.addItem(addition);
+		return localBin.addItem(addition);
 	}
 
 	@Override
@@ -224,8 +228,25 @@ public class BinPackingNode extends BinPackingInstance implements Iterable<Node>
 		binList.add(newBin);
 	}
 	
+	public void addItem(Item addition) {
+		invalidateBounds();
+		itemList.add(addition);
+		remainingItemWeight += addition.getWeight();
+	}
+	
+	public void removeFromBin(Bin bin, int itemPosition) {
+		invalidateBounds();
+		Bin localBin = binList.get(bin.getPosition());
+		remainingSpace += localBin.removeItem(itemPosition).getWeight();
+	}
+	
+	public void removeLastBin() {
+		invalidateBounds();
+		binList.remove(binList.size() - 1);
+	}
+	
 	@Override
-	public Iterator<Node> iterator() {
+	public Iterator<BranchingNode> iterator() {
 		return this;
 	}
 
@@ -250,17 +271,21 @@ public class BinPackingNode extends BinPackingInstance implements Iterable<Node>
 		
 	}
 	
+	public BinPackingNode newNode(BinPackingInstance problem, BinPackingModel model, int lvl, List<Change<MutableBinPackingInstance>> changes, BinPackingHueristic hueristic, int remainingItemWeight, int remainingSpace) {
+		return new BinPackingNode(problem, model, lvl, changes, hueristic, remainingItemWeight, remainingSpace);
+	}
+	
 	@Override
 	public BinPackingNode next() {
 		Bin bin = nextBin();
-		ArrayList<Change> changes = new ArrayList<Change>(1);
+		ArrayList<Change<MutableBinPackingInstance>> changes = new ArrayList<Change<MutableBinPackingInstance>>(1);
 		if (bin != null) {
 			changes.add(new AddToBin(bin, item));
-			return new BinPackingNode(this, this.model, level + 1, changes, hueristic, remainingItemWeight, remainingSpace);
+			return newNode(this, this.model, level + 1, changes, hueristic, remainingItemWeight, remainingSpace);
 		} else if (!done) {
 			done = true;
 			changes.add(new NewBin(item));
-			return new BinPackingNode(this, this.model, level + 1, changes, hueristic, remainingItemWeight, remainingSpace);
+			return newNode(this, this.model, level + 1, changes, hueristic, remainingItemWeight, remainingSpace);
 		}
 		throw new NoSuchElementException();
 	}
@@ -287,5 +312,3 @@ public class BinPackingNode extends BinPackingInstance implements Iterable<Node>
 	}
 
 }
-
-//  [Last modified: 2020 04 20 at 15:21:32 GMT]
