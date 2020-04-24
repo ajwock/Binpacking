@@ -60,7 +60,7 @@ public class BinpackSolver {
 				original = SnapReader.readInputFile(inputFile);
 			} catch (Exception e) {
 				System.out.println(USAGE);
-				System.out.println("ERROR:  Could not open file.");
+				System.out.println("ERROR:  Could not open file :" + inputFile);
 				System.exit(1);
 			}
 			// Checks to see if the vertices in the cover should be printed
@@ -70,10 +70,13 @@ public class BinpackSolver {
 					pVertices = false;
 				case "-simplebnb":
 					BinpackSolver.heuristic = "basic";
+					break;
 				case "-fastbnb":
 					BinpackSolver.heuristic = "fast";
+					break;
 				case "-ffapprox":
 					BinpackSolver.heuristic = "ffapprox";
+					break;
 				}
 			}
 		} else {
@@ -134,12 +137,12 @@ public class BinpackSolver {
 	 * 
 	 * @param inputFile the file used to create the original graph
 	 */
-	private static void outputInfo(String inputFile) {
+	public static void outputInfo(String inputFile) {
 		System.out.println("filename	" + inputFile);
 		System.out.println("items		" + original.getNumItems());
 		System.out.println("capacity	" + original.getCapacity());
 		System.out.println("bins 		" + original.getNumBins());
-		System.out.print("mode		" + BinpackSolver.heuristic);
+		System.out.println("mode		" + BinpackSolver.heuristic);
 		// Prints out the chosen heuristic
 		System.out.println("runtime  	" + totalTime);
 		System.out.println("branches 	" + original.getBranches());

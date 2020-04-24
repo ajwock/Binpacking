@@ -69,11 +69,41 @@ public class Bin {
 		return "(Bin: " + position.toString() + " packedList:" + packedList + " )"; 
 	}
 
-	/**
-	 * Interestingly, this hashCode can change since the remainingSpace can change as well.  However, this is relevant to the hueristic where we don't check
-	 * bins with the same amount of remaining space for a branch.
-	 */
+	@Override
 	public int hashCode() {
-		return remainingSpace();
+		return this.remainingSpace();
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Bin other = (Bin) obj;
+		if (packed == null) {
+			if (other.packed != null)
+				return false;
+		} else if (!packed.equals(other.packed))
+			return false;
+		if (packedList == null) {
+			if (other.packedList != null)
+				return false;
+		} else if (!packedList.equals(other.packedList))
+			return false;
+		if (position == null) {
+			if (other.position != null)
+				return false;
+		} else if (!position.equals(other.position))
+			return false;
+		if (remainingSpace == null) {
+			if (other.remainingSpace != null)
+				return false;
+		} else if (!remainingSpace.equals(other.remainingSpace))
+			return false;
+		return true;
+	}
+	
 }

@@ -53,6 +53,7 @@ public class Item implements Comparable<Item> {
 		if (this.compareTo(other) == 0) {
 			return true;
 		}
+		System.out.println("Difference detected- expected: " + this + " Got: " + other);
 		return false;
 	}
 
