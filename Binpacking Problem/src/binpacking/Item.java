@@ -7,6 +7,12 @@ public class Item implements Comparable<Item> {
 	public double ratio;
 	/** The unique number assigned to this item */
 	public int itemNum;
+	/** The position of the item in the itemList. */
+	public Integer position;
+	
+	public Integer getPosition() {
+		return position;
+	}
 	
 	/**
 	 * Creates a new item object with the given item number, value, and weight
@@ -30,10 +36,10 @@ public class Item implements Comparable<Item> {
 	@Override
 	public int compareTo(Item o) {
 		if (this.weight < o.weight) {
-			return 1;
+			return -1;
 		}
 		if (this.weight > o.weight) {
-			return -1;
+			return 1;
 		}
 		return 0;
 	}
@@ -61,4 +67,9 @@ public class Item implements Comparable<Item> {
 	public String toString() {
 		return "(Item: " + itemNum + " " + weight + ")";
 	}
+
+	public void setPosition(int pos) {
+		this.position = pos;
+	}
+
 }

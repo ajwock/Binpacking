@@ -22,7 +22,7 @@ public class Branching {
 				int lb = newBranch.lowerBound();
 				int ub = newBranch.upperBound();
 	
-				if (lb < ub) {
+				if (lb < ub + 6) {
 					branch(newBranch);
 				}
 			}

@@ -18,7 +18,7 @@ public interface MutableBinPackingInstance extends BinPackingSolution, BinPackin
 
 	public abstract void addToNewBin(Item addition);
 	
-	public abstract void removeItem(Item removal);
+	public abstract Item removeItem(int index);
 	
 	public abstract void addItem(Item addition);
 
@@ -49,7 +49,7 @@ public interface MutableBinPackingInstance extends BinPackingSolution, BinPackin
 
 		public void applyChange(MutableBinPackingInstance instance) {
 			itemPosition = instance.addToBin(bin, addition);
-			instance.removeItem(addition);
+			instance.removeItem(addition.getPosition());
 		}
 		
 		public void reverseChange(MutableBinPackingInstance instance) {
@@ -79,7 +79,7 @@ public interface MutableBinPackingInstance extends BinPackingSolution, BinPackin
 		
 		public void applyChange(MutableBinPackingInstance instance) {
 			instance.addToNewBin(addition);
-			instance.removeItem(addition);
+			instance.removeItem(addition.getPosition());
 		}
 
 		@Override

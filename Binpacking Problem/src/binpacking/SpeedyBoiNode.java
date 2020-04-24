@@ -74,8 +74,7 @@ public class SpeedyBoiNode extends BinPackingNode implements DynamicBinPackingIn
 		if (upperBound == -1) {
 			//Apply an appromixation hueristic to the remaining instance.
 			BinPackingSolution result = hueristic.apply(this);
-			List<Bin> solutionList = result.getSolution();
-			int ub = solutionList.size();
+			int ub = binList.size();
 			/** Pass in the result as a possible solution. */
 			model.checkSolution(result);
 			model.trySetUpperBound(ub);

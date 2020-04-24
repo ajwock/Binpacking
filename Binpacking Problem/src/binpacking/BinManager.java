@@ -1,6 +1,7 @@
 package binpacking;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import binpacking.interfaces.BinPackingInstance;
@@ -34,6 +35,14 @@ public class BinManager implements BinPackingInstance {
 		capacity = cap;
 		numItems = items;
 		this.items = new ArrayList<Item>(numItems);
+		assignPositions();
+	}
+	
+	public void assignPositions() {
+		Collections.sort(this.items);
+		for (int i = 0; i < this.items.size(); i++) {
+			this.items.get(i).setPosition(i);
+		}
 	}
 	
 	public int getCapacity() {
@@ -62,6 +71,7 @@ public class BinManager implements BinPackingInstance {
 	}
 
 	public long unrefined() {
+		assignPositions();
 		Branching bnb = new Branching();
 		BinPackingNode root = new SpeedyBoiNode(this);
 		BinPackingModel model = root.getModel();
@@ -69,8 +79,18 @@ public class BinManager implements BinPackingInstance {
 			bnb.branch(root);
 		} catch (OptimalSolutionException e) {
 			model.checkSolution(e.getSolution());
-		};
+		}
 		branches = bnb.branches;
+		boxOfBins = new ArrayList<Bin>(model.getSolution());
+		numBins = boxOfBins.size();
+		return numBins;
+	}
+	
+	public long ffapprox() {
+		assignPositions();
+		BinPackingNode root = new SpeedyBoiNode(this);
+		BinPackingModel model = root.getModel();
+		model.checkSolution(new FirstFitHueristic().apply(root));
 		boxOfBins = new ArrayList<Bin>(model.getSolution());
 		numBins = boxOfBins.size();
 		return numBins;

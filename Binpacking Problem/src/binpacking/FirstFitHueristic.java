@@ -3,9 +3,11 @@ package binpacking;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Stack;
 
 import binpacking.interfaces.BinPackingInstance;
 import binpacking.interfaces.BinPackingSolution;
+import binpacking.interfaces.Change;
 import binpacking.interfaces.DynamicBinPackingInstance;
 import binpacking.interfaces.MutableBinPackingInstance;
 
@@ -19,13 +21,18 @@ public class FirstFitHueristic extends BinPackingHueristic {
 	 * @return An approximate solution to the BP problem.
 	 */
 	private BinPackingSolution safe(DynamicBinPackingInstance instance) {
-		List<Item> itemList = instance.itemList();
+		Stack<Item> itemStack = new Stack<Item>();
+		for (Item item : instance.itemList()) {
+			itemStack.push(item);
+		}
+		
 		int binSize = instance.binSize();
 		instance.newChangeFrame();
-		for (Item item : itemList) {
+		while (!itemStack.isEmpty()) {
+			Item item = itemStack.pop();
 			boolean placed = false;
 			for (Bin bin : instance.binList()) {
-				if (item.getWeight() < bin.remainingSpace()) {
+				if (item.getWeight() <= bin.remainingSpace()) {
 					instance.pushChange(new MutableBinPackingInstance.AddToBin(bin, item));
 					placed = true;
 					break;
@@ -53,7 +60,7 @@ public class FirstFitHueristic extends BinPackingHueristic {
 			Item item = itemQueue.remove(itemQueue.size() - 1);
 			boolean placed = false;
 			for (Bin bin : binList) {
-				if (item.getWeight() < bin.remainingSpace()) {
+				if (item.getWeight() <= bin.remainingSpace()) {
 					bin.addItem(item);
 					placed = true;
 					break;

@@ -93,9 +93,12 @@ public class BinpackSolver {
 		System.out.println("runtime  	" + totalTime);
 		System.out.println("branches 	" + original.getBranches());
 		if (pVertices) {
-			Iterator<Bin> storedIDs = original.binList().listIterator();
-			while (storedIDs.hasNext()) {
-				storedIDs.next().printContents();
+//			Iterator<Bin> storedIDs = original.binList().listIterator();
+//			while (storedIDs.hasNext()) {
+//				storedIDs.next().printContents();
+//			}
+			for (Bin bin : original.binList()) {
+				System.out.println(bin);
 			}
 		}
 	}
