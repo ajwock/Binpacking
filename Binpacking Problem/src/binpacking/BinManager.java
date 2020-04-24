@@ -35,13 +35,13 @@ public class BinManager implements BinPackingInstance {
 		capacity = cap;
 		numItems = items;
 		this.items = new ArrayList<Item>(numItems);
-		assignPositions();
+		assignItemPositions(this.items);
 	}
 	
-	public void assignPositions() {
-		Collections.sort(this.items);
-		for (int i = 0; i < this.items.size(); i++) {
-			this.items.get(i).setPosition(i);
+	public void assignItemPositions(List<Item> items) {
+		Collections.sort(items);
+		for (int i = 0; i < items.size(); i++) {
+			items.get(i).setPosition(i);
 		}
 	}
 	
@@ -71,9 +71,19 @@ public class BinManager implements BinPackingInstance {
 	}
 
 	public long unrefined() {
-		assignPositions();
-		Branching bnb = new Branching();
+		assignItemPositions(this.items);
+		BinPackingNode root = new BinPackingNode(this);
+		return runOnNode(root);
+	}
+	
+	public long fast() {
+		assignItemPositions(this.items);
 		BinPackingNode root = new SpeedyBoiNode(this);
+		return runOnNode(root);
+	}
+	
+	public long runOnNode(BinPackingNode root) {
+		Branching bnb = new Branching();
 		BinPackingModel model = root.getModel();
 		try {
 			bnb.branch(root);
@@ -87,10 +97,15 @@ public class BinManager implements BinPackingInstance {
 	}
 	
 	public long ffapprox() {
-		assignPositions();
-		BinPackingNode root = new SpeedyBoiNode(this);
-		BinPackingModel model = root.getModel();
-		model.checkSolution(new FirstFitHueristic().apply(root));
+		assignItemPositions(this.items);
+		BinPackingNode root = new BinPackingNode(this);
+		BinPackingHueristic hueristic = new FirstFitHueristic();
+		return runApproximationOnNode(root, hueristic);
+	}
+	
+	public long runApproximationOnNode(BinPackingNode node, BinPackingHueristic hueristic) {
+		BinPackingModel model = node.getModel();
+		model.checkSolution(hueristic.apply(node));
 		boxOfBins = new ArrayList<Bin>(model.getSolution());
 		numBins = boxOfBins.size();
 		return numBins;
