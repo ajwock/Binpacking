@@ -26,6 +26,7 @@ public class BinManager implements BinPackingInstance {
 	ArrayList<Bin> boxOfBins = new ArrayList<Bin>();
 	ArrayList<BinPackingNode> boxOfNodes = new ArrayList<BinPackingNode>();
 	private int numBins;
+	boolean traceTree;
 
 	/**
 	 * Creates a new BinManager object, with the given capacity and the number of
@@ -36,15 +37,16 @@ public class BinManager implements BinPackingInstance {
 		numItems = items;
 		this.items = new ArrayList<Item>(numItems);
 		assignItemPositions(this.items);
+		traceTree = false;
 	}
-	
+
 	public void assignItemPositions(List<Item> items) {
 		Collections.sort(items);
 		for (int i = 0; i < items.size(); i++) {
 			items.get(i).setPosition(i);
 		}
 	}
-	
+
 	public int getCapacity() {
 		return this.capacity;
 	}
@@ -65,6 +67,10 @@ public class BinManager implements BinPackingInstance {
 		return branches;
 	}
 
+	public void setTraceTree(boolean tt) {
+		traceTree = tt;
+	}
+
 	public void addBin() {
 		Bin k = new Bin(capacity, boxOfBins.size());
 		boxOfBins.add(k);
@@ -74,15 +80,17 @@ public class BinManager implements BinPackingInstance {
 		BinPackingNode root = new BinPackingNode(this);
 		return runOnNode(root).solutionValue;
 	}
-	
+
 	public long fast() {
 		BinPackingNode root = new SpeedyBoiNode(this);
 		return runOnNode(root).solutionValue;
 	}
-	
+
 	public BinPackingModel runOnNode(BinPackingNode root) {
 		assignItemPositions(root.itemList);
-		Branching bnb = new Branching();
+		// This algorithm can have upper bounds calculated by the parents- nearly a
+		// twofold speedup.
+		Branching bnb = new Branching(traceTree, true, false);
 		BinPackingModel model = root.getModel();
 		try {
 			bnb.branch(root);
@@ -94,13 +102,13 @@ public class BinManager implements BinPackingInstance {
 		numBins = boxOfBins.size();
 		return model;
 	}
-	
+
 	public long ffapprox() {
 		BinPackingNode root = new BinPackingNode(this);
 		BinPackingHueristic hueristic = new FirstFitHueristic();
 		return runApproximationOnNode(root, hueristic).solutionValue;
 	}
-	
+
 	public BinPackingModel runApproximationOnNode(BinPackingNode node, BinPackingHueristic hueristic) {
 		assignItemPositions(node.itemList);
 		BinPackingModel model = node.getModel();

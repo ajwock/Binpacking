@@ -11,6 +11,8 @@ public interface BranchingNode extends Iterator<BranchingNode>, Iterable<Branchi
 	int upperBound();
 
 	int lowerBound();
+	
+	int level();
 
 	Iterator<BranchingNode> iterator();
 

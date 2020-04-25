@@ -43,6 +43,10 @@ public class BinPackingNode implements MutableBinPackingInstance, Iterable<Branc
 	BinPackingHueristic hueristic;
 	int remainingItemWeight;
 	int remainingSpace;
+	
+	public int level() {
+		return level;
+	}
 
 	public List<Bin> binList() {
 		// Adds an extra slot in case an addition need be made.
