@@ -1,16 +1,19 @@
 /**
  * 
  */
-package binpacking;
+package binpacking.branching;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import binpacking.interfaces.BinPackingHueristic;
 import binpacking.interfaces.BinPackingInstance;
 import binpacking.interfaces.BinPackingSolution;
 import binpacking.interfaces.Change;
 import binpacking.interfaces.DynamicBinPackingInstance;
 import binpacking.interfaces.MutableBinPackingInstance;
+import binpacking.model.Bin;
+import binpacking.model.BinPackingModel;
 
 /**
  * @author dzdt
@@ -75,8 +78,7 @@ public class SpeedyBoiNode extends BinPackingNode implements DynamicBinPackingIn
 		if (upperBound == -1) {
 			// Apply an appromixation hueristic to the remaining instance.
 			BinPackingSolution result = hueristic.apply(this);
-			int ub = binList.size();
-			/** Pass in the result as a possible solution. */
+			// Pass in the result as a possible solution.
 			model.checkSolution(result);
 			// Many changes are applied to create the approximation.
 			// Undo those.

@@ -1,4 +1,4 @@
-package binpacking;
+package bnb;
 
 import binpacking.interfaces.BinPackingSolution;
 
@@ -15,11 +15,11 @@ import binpacking.interfaces.BinPackingSolution;
 public class OptimalSolutionException extends Exception {
 
 	BinPackingSolution solution;
-	
+
 	public OptimalSolutionException(BinPackingSolution sln) {
 		solution = sln;
 	}
-	
+
 	public BinPackingSolution getSolution() {
 		return solution;
 	}

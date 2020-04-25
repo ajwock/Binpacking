@@ -1,4 +1,4 @@
-package binpacking;
+package bnb;
 
 import binpacking.interfaces.BranchingNode;
 
@@ -78,11 +78,11 @@ public class Branching {
 		}
 
 	}
-	
+
 	public Branching(boolean traceTree) {
 		this(traceTree, false, false);
 	}
-	
+
 	public Branching() {
 		this(false);
 	}
@@ -93,20 +93,21 @@ public class Branching {
 
 	private interface TreeTracer {
 		public void traceNode(BranchingNode node, int lb, int ub);
+
 		public void traceNode(BranchingNode node);
 	}
-	
+
 	/**
-	 * This class is used to print the branching tree as branching occurs.
-	 * Useful for debugging because of the real time updates.
+	 * This class is used to print the branching tree as branching occurs. Useful
+	 * for debugging because of the real time updates.
 	 * 
 	 * @author Andrew Wock
 	 *
 	 */
 	private class PrintingTreeTracer implements TreeTracer {
-		
+
 		StringBuilder sb;
-		
+
 		private void traceNodeMidString(BranchingNode node, StringBuilder ms) {
 			sb = new StringBuilder();
 			for (int i = 0; i < node.level(); i++) {
@@ -130,10 +131,8 @@ public class Branching {
 		public void traceNode(BranchingNode node) {
 			traceNodeMidString(node, new StringBuilder("leaf"));
 		}
-		
-	}
-	
 
+	}
 
 	private interface Brancher {
 		public void branch(BranchingNode node);
@@ -191,6 +190,10 @@ public class Branching {
 
 	public void branch(BranchingNode node) throws OptimalSolutionException {
 		brancher.branch(node);
+	}
+
+	public int getBranches() {
+		return branches;
 	}
 
 }

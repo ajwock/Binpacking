@@ -1,16 +1,20 @@
 package binpacking;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import binpacking.branching.BinPackingNode;
+import binpacking.controller.BinpackSolver;
+import binpacking.interfaces.BinPackingHueristic;
 import binpacking.interfaces.BinPackingInstance;
 import binpacking.interfaces.Change;
 import binpacking.interfaces.MutableBinPackingInstance;
+import binpacking.model.BinManager;
+import binpacking.model.BinPackingModel;
 
 class BinPackingTest {
 

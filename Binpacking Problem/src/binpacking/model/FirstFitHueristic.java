@@ -1,21 +1,20 @@
-package binpacking;
+package binpacking.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 import java.util.Stack;
 
-import binpacking.interfaces.BinPackingInstance;
+import binpacking.interfaces.BinPackingHueristic;
 import binpacking.interfaces.BinPackingSolution;
-import binpacking.interfaces.Change;
 import binpacking.interfaces.DynamicBinPackingInstance;
 import binpacking.interfaces.MutableBinPackingInstance;
 
-public class FirstFitHueristic extends BinPackingHueristic {
+public class FirstFitHueristic implements BinPackingHueristic {
 
 	/**
-	 * Changes the whole instance, but said changes are recorded in DynamicBinPackingInstance style.
-	 * A simple call to popChangeFrame will undo the approximation.
+	 * Changes the whole instance, but said changes are recorded in
+	 * DynamicBinPackingInstance style. A simple call to popChangeFrame will undo
+	 * the approximation.
 	 * 
 	 * @param instance The BP instance.
 	 * @return An approximate solution to the BP problem.
@@ -25,8 +24,7 @@ public class FirstFitHueristic extends BinPackingHueristic {
 		for (Item item : instance.remainingItemList()) {
 			itemStack.push(item);
 		}
-		
-		int binSize = instance.binSize();
+
 		instance.newChangeFrame();
 		while (!itemStack.isEmpty()) {
 			Item item = itemStack.pop();
@@ -44,13 +42,14 @@ public class FirstFitHueristic extends BinPackingHueristic {
 		}
 		return instance;
 	}
-	
+
 	/**
-	 * This approximation simply clobbers whatever instance is passed into it with the approximation.
-	 * Recommended to use a copy constructor if this is being used for lower bound use.
+	 * This approximation simply clobbers whatever instance is passed into it with
+	 * the approximation. Recommended to use a copy constructor if this is being
+	 * used for lower bound use.
 	 * 
 	 * @param instance
-	 * @return An approximate solution to the 
+	 * @return An approximate solution to the
 	 */
 	private BinPackingSolution unsafe(MutableBinPackingInstance instance) {
 		List<Bin> binList = instance.binList();
@@ -73,17 +72,15 @@ public class FirstFitHueristic extends BinPackingHueristic {
 			}
 		}
 		BinPackingSolution solved = new BinPackingSolution() {
-				@Override
-				public List<Bin> getSolution() {
-					// TODO Auto-generated method stub
-					return binList;
-				} 
-			};
+			@Override
+			public List<Bin> getSolution() {
+				// TODO Auto-generated method stub
+				return binList;
+			}
+		};
 		return solved;
 	}
-	
-	
-	
+
 	@Override
 	public BinPackingSolution apply(MutableBinPackingInstance instance) {
 		if (instance instanceof DynamicBinPackingInstance) {
@@ -92,5 +89,5 @@ public class FirstFitHueristic extends BinPackingHueristic {
 			return unsafe(instance);
 		}
 	}
-	
+
 }

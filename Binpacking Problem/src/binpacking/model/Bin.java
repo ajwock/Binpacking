@@ -1,7 +1,6 @@
-package binpacking;
+package binpacking.model;
 
 import java.util.ArrayList;
-import java.lang.Integer;
 
 public class Bin {
 	/** The remaining space of the bin */
@@ -10,35 +9,33 @@ public class Bin {
 	private Integer packed;
 	/** An ArrayList of items in this bin */
 	private ArrayList<Item> packedList;
-	/** TODO: Change to position.  For now will be an index. **/
+	/** TODO: Change to position. For now will be an index. **/
 	private Integer position;
 
-	Bin(int capacity, int position) {
+	public Bin(int capacity, int position) {
 		packedList = new ArrayList<Item>();
 		packed = 0;
 		remainingSpace = capacity;
 		this.position = position;
 	}
-	
+
 	@SuppressWarnings({ "deprecation", "unchecked" })
-	Bin(Bin bin) {
-		//Intentional copy-by-value use of Integer constructor.
+	public Bin(Bin bin) {
+		// Intentional copy-by-value use of Integer constructor.
 		this.remainingSpace = new Integer(bin.remainingSpace.intValue());
 		this.packed = new Integer(bin.packed.intValue());
 		this.position = new Integer(bin.position.intValue());
 		this.packedList = (ArrayList<Item>) bin.packedList.clone();
 	}
 
-
-
 	public Integer remainingSpace() {
 		return this.remainingSpace;
 	}
-	
+
 	public Integer getPacked() {
 		return this.packed;
 	}
-	
+
 	public Integer getPosition() {
 		return this.position;
 	}
@@ -60,13 +57,13 @@ public class Bin {
 
 	public void printContents() {
 		System.out.println("  Bin #: " + this.position);
-		for(int i = 0; i < packedList.size(); i++) {
+		for (int i = 0; i < packedList.size(); i++) {
 			System.out.println("		" + packedList.get(i).getItemNum());
 		}
 	}
-	
+
 	public String toString() {
-		return "(Bin: " + position.toString() + " packedList:" + packedList + " )"; 
+		return "(Bin: " + position.toString() + " packedList:" + packedList + " )";
 	}
 
 	@Override
@@ -105,5 +102,5 @@ public class Bin {
 			return false;
 		return true;
 	}
-	
+
 }

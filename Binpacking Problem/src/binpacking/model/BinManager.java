@@ -1,10 +1,15 @@
-package binpacking;
+package binpacking.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import binpacking.branching.BinPackingNode;
+import binpacking.branching.SpeedyBoiNode;
+import binpacking.interfaces.BinPackingHueristic;
 import binpacking.interfaces.BinPackingInstance;
+import bnb.Branching;
+import bnb.OptimalSolutionException;
 
 /**
  * Handles the nodes at which the knapsack branches at
@@ -32,7 +37,7 @@ public class BinManager implements BinPackingInstance {
 	 * Creates a new BinManager object, with the given capacity and the number of
 	 * items that can be put into each bin that's created.
 	 */
-	BinManager(int cap, int items) {
+	public BinManager(int cap, int items) {
 		capacity = cap;
 		numItems = items;
 		this.items = new ArrayList<Item>(numItems);
@@ -87,7 +92,7 @@ public class BinManager implements BinPackingInstance {
 	}
 
 	public BinPackingModel runOnNode(BinPackingNode root) {
-		assignItemPositions(root.itemList);
+		assignItemPositions(root.itemList());
 		// This algorithm can have upper bounds calculated by the parents- nearly a
 		// twofold speedup.
 		Branching bnb = new Branching(traceTree, true, false);
@@ -97,7 +102,7 @@ public class BinManager implements BinPackingInstance {
 		} catch (OptimalSolutionException e) {
 			model.checkSolution(e.getSolution());
 		}
-		branches = bnb.branches;
+		branches = bnb.getBranches();
 		boxOfBins = new ArrayList<Bin>(model.getSolution());
 		numBins = boxOfBins.size();
 		return model;

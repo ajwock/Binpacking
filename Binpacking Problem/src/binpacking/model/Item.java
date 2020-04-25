@@ -1,7 +1,7 @@
-package binpacking;
+package binpacking.model;
 
 public class Item implements Comparable<Item> {
-	/** The weight of this item*/
+	/** The weight of this item */
 	public int weight;
 	/** The ratio of the item's value over the weight */
 	public double ratio;
@@ -9,29 +9,30 @@ public class Item implements Comparable<Item> {
 	public int itemNum;
 	/** The position of the item in the itemList. */
 	public Integer position;
-	
+
 	public Integer getPosition() {
 		return position;
 	}
-	
+
 	/**
 	 * Creates a new item object with the given item number, value, and weight
+	 * 
 	 * @param num the given item number
-	 * @param w the given item weight
+	 * @param w   the given item weight
 	 */
-	Item(int num, int w) {
+	public Item(int num, int w) {
 		itemNum = num;
 		weight = w;
 	}
-	
+
 	public int getWeight() {
 		return this.weight;
 	}
-	
+
 	public int getItemNum() {
 		return this.itemNum;
 	}
-	
+
 	// Compares the ratio of this item to the given item
 	@Override
 	public int compareTo(Item o) {
@@ -58,13 +59,14 @@ public class Item implements Comparable<Item> {
 	}
 
 	/**
-	 * A perfect hash, particularly for sets.  Effective equality is determined exactly by this hash.
+	 * A perfect hash, particularly for sets. Effective equality is determined
+	 * exactly by this hash.
 	 */
 	@Override
 	public int hashCode() {
 		return getWeight();
 	}
-	
+
 	public String toString() {
 		return "(Item: " + itemNum + " " + weight + ")";
 	}

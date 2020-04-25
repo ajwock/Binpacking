@@ -1,8 +1,11 @@
-package binpacking;
+package binpacking.controller;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
+
+import binpacking.model.BinManager;
+import binpacking.model.Item;
 
 /**
  * Handles all input for .snap files

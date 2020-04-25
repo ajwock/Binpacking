@@ -1,4 +1,4 @@
-package binpacking;
+package binpacking.model;
 
 import java.util.List;
 
@@ -10,9 +10,9 @@ import binpacking.interfaces.BinPackingSolution;
 public class BinPackingModel {
 
 	public List<Bin> solution;
-	int solutionValue;
+	public int solutionValue;
 	int upperBound;
-	
+
 	public BinPackingModel() {
 		solutionValue = 0x7FFFFFFF;
 	}
@@ -24,11 +24,11 @@ public class BinPackingModel {
 			solutionValue = solved.size();
 		}
 	}
-	
+
 	public int bestSolutionValue() {
 		return solutionValue;
 	}
-	
+
 	public List<Bin> getSolution() {
 		return solution;
 	}
@@ -61,8 +61,7 @@ public class BinPackingModel {
 			return false;
 		return true;
 	}
-	
-	
+
 }
 
 //  [Last modified: 2020 04 20 at 15:10:38 GMT]

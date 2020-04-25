@@ -2,7 +2,7 @@ package binpacking.interfaces;
 
 import java.util.List;
 
-import binpacking.Bin;
+import binpacking.model.Bin;
 
 public interface BinPackingSolution {
 

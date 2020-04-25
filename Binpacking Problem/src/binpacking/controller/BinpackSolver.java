@@ -1,8 +1,9 @@
-package binpacking;
+package binpacking.controller;
 
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.Set;
+
+import binpacking.model.Bin;
+import binpacking.model.BinManager;
 
 /**
  * Handles the main method, as well as the output of information concerning the
@@ -14,7 +15,7 @@ import java.util.Set;
  */
 public class BinpackSolver {
 	/** The knapsack that's to be solved */
-	static BinManager original;
+	public static BinManager original;
 	/** The start time of the chosen heuristic */
 	static long startTime;
 	/** The total amount of time that the chosen heuristic took to finish running */
@@ -25,17 +26,15 @@ public class BinpackSolver {
 	static boolean traceTree = false;
 	/** The chosen heuristic to run for this program */
 	static String heuristic = "basicbnb";
-	
+
 	public static final String USAGE = "Usage: java -jar BinpackSolver.jar path/to/your/file [method] [-q]\n"
 			+ "Must include an input file argument.\n"
-			+ "optional \"method\" argument determines how the BP problem is solved.\n"
-			+ "Methods are:\n"
+			+ "optional \"method\" argument determines how the BP problem is solved.\n" + "Methods are:\n"
 			+ "  -simplebnb\n"
 			+ "      Runs an naive implementation of branch and bound.  Guaranteed optimal solution, and rather slow.\n"
 			+ "  -fastbnb\n"
 			+ "      Runs an advanced implementation of branch and bound.  Guaranteed optimal solution, and relatively fast.\n"
-			+ "      Currently in development, buggy.\n"
-			+ "  -ffapprox\n"
+			+ "      Currently in development, buggy.\n" + "  -ffapprox\n"
 			+ "      Runs a first-fit approximation.  Suboptimal solution but very fast.\n"
 			+ "The optional -q argument omits the solution from the output to reduce output size.";
 
@@ -52,7 +51,7 @@ public class BinpackSolver {
 	public static void main(String args[]) throws IOException {
 		startBPProgram(args);
 	}
-	
+
 	public static void resolveArgs(String args[]) {
 		if (args.length >= 1) {
 			// The input file
@@ -66,7 +65,7 @@ public class BinpackSolver {
 				System.exit(1);
 			}
 			// Checks to see if the vertices in the cover should be printed
-			for (int i = 1; i < args.length; i++){
+			for (int i = 1; i < args.length; i++) {
 				switch (args[i]) {
 				case "-q":
 					pVertices = false;
@@ -92,7 +91,7 @@ public class BinpackSolver {
 			System.exit(1);
 		}
 	}
-	
+
 	public static long dispatch() {
 		switch (BinpackSolver.heuristic) {
 		case "basicbnb":
@@ -104,7 +103,7 @@ public class BinpackSolver {
 		}
 		return -1;
 	}
-	
+
 	public static void startBPProgram(String args[]) {
 		BinpackSolver.resolveArgs(args);
 		BinpackSolver.dispatch();
@@ -129,14 +128,13 @@ public class BinpackSolver {
 		totalTime = System.currentTimeMillis() - startTime;
 		return k;
 	}
-	
+
 	private static long firstFitApprox() {
 		startTime = System.currentTimeMillis();
 		long k = original.ffapprox();
 		totalTime = System.currentTimeMillis() - startTime;
 		return k;
 	}
-
 
 	/**
 	 * Used to output information concerning both the solved knapsack, the number of
