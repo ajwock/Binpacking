@@ -1,4 +1,7 @@
-k 3 0
+#Just a stupid test to see what happens if bins have 0 capacity
+#Apparently it just gives each item its own bin
+k 4 0
 1  2
 2  1
 3  1
+4  10000
