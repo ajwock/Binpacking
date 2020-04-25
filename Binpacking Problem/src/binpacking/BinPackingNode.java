@@ -66,6 +66,15 @@ public class BinPackingNode implements MutableBinPackingInstance, Iterable<Branc
 //		return newList;
 		return itemList;
 	}
+	
+	public List<Item> remainingItemList() {
+		List<Item> smallList = new ArrayList<Item>(itemList.size() - level - 1);
+		int top = itemList.size() - level;
+		for (int i = 0; i < top; i++) {
+			smallList.add(itemList.get(i));
+		}
+		return smallList;
+	}
 
 	public int binSize() {
 		return binSize;
@@ -110,10 +119,14 @@ public class BinPackingNode implements MutableBinPackingInstance, Iterable<Branc
 			int remainingSpace) {
 		this.problem = problem;
 		this.model = model;
-		binList = problem.binList();
-		binIndex = 0;
+		level = lvl;
 		itemList = problem.itemList();
+		binList = problem.binList();
 		binSize = problem.binSize();
+		isLeaf = level >= itemList.size();
+		
+		binIndex = 0;
+		
 		this.hueristic = hueristic;
 		this.remainingItemWeight = remainingItemWeight;
 		this.remainingSpace = remainingSpace;
@@ -121,11 +134,10 @@ public class BinPackingNode implements MutableBinPackingInstance, Iterable<Branc
 		lowerBound = -1;
 
 		applyChanges(changes);
-		level = lvl;
+		
 		if (level == 0) {
 			assignItemPositions(itemList);
 		}
-		isLeaf = level >= itemList.size();
 		if (isLeaf) {
 			model.checkSolution(this);
 		}
@@ -235,6 +247,13 @@ public class BinPackingNode implements MutableBinPackingInstance, Iterable<Branc
 		upperBound = -1;
 		lowerBound = -1;
 	}
+	
+	public void setRemainingItemWeight(int weight) {
+//		if (weight < 0) {
+//			throw new IllegalArgumentException();
+//		}
+		this.remainingItemWeight = weight;
+	}
 
 	/**
 	 * Only removes the item weight.
@@ -242,7 +261,7 @@ public class BinPackingNode implements MutableBinPackingInstance, Iterable<Branc
 	@Override
 	public Item removeItem(int index) {
 		Item removed = itemList.get(index);
-		remainingItemWeight -= removed.getWeight();
+		setRemainingItemWeight(remainingItemWeight - removed.getWeight());
 		return removed;
 	}
 
@@ -253,14 +272,19 @@ public class BinPackingNode implements MutableBinPackingInstance, Iterable<Branc
 	public void addItem(Item addition) {
 //		invalidateBounds();
 //		itemList.add(addition);
-		remainingItemWeight += addition.getWeight();
+		setRemainingItemWeight(remainingItemWeight + addition.getWeight());
 	}
 
+	public void setRemainingSpace(int space) {
+		
+		this.remainingSpace = space;
+	}
+	
 	@Override
 	public int addToBin(Bin bin, Item addition) {
 		invalidateBounds();
 		Bin localBin = binList.get(bin.getPosition());
-		remainingSpace -= addition.getWeight();
+		setRemainingSpace(remainingSpace - addition.getWeight());
 		return localBin.addItem(addition);
 	}
 
@@ -268,21 +292,22 @@ public class BinPackingNode implements MutableBinPackingInstance, Iterable<Branc
 	public void removeFromBin(Bin bin, int itemPosition) {
 		invalidateBounds();
 		Bin localBin = binList.get(bin.getPosition());
-		remainingSpace += localBin.removeItem(itemPosition).getWeight();
+		setRemainingSpace(remainingSpace + localBin.removeItem(itemPosition).getWeight());
 	}
 
 	@Override
 	public void addToNewBin(Item addition) {
 		invalidateBounds();
-		remainingSpace += binSize();
 		Bin newBin = new Bin(binSize(), binList.size());
 		newBin.addItem(addition);
+		setRemainingSpace(remainingSpace + newBin.remainingSpace());
 		binList.add(newBin);
 	}
 
 	@Override
 	public void removeLastBin() {
 		invalidateBounds();
+		setRemainingSpace(remainingSpace - binList.get(binList.size() - 1).remainingSpace());
 		binList.remove(binList.size() - 1);
 	}
 

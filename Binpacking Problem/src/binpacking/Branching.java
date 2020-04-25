@@ -30,9 +30,15 @@ public class Branching {
 				if (lb < ub) {
 					branch(newBranch);  
 				}
+			} else {
+				BinPackingNode x = (BinPackingNode) newBranch;
+				for (int i = 0; i < x.level; i++) {
+					System.out.print("--");
+				}
+				System.out.print("leaf" + x.binList + "\n");
 			}
 			//More advanced nodes may want to be able to restore shared resources.
-			node.destructor();
+			newBranch.destructor();
 		}
 	}
 

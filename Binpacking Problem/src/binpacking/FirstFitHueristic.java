@@ -22,7 +22,7 @@ public class FirstFitHueristic extends BinPackingHueristic {
 	 */
 	private BinPackingSolution safe(DynamicBinPackingInstance instance) {
 		Stack<Item> itemStack = new Stack<Item>();
-		for (Item item : instance.itemList()) {
+		for (Item item : instance.remainingItemList()) {
 			itemStack.push(item);
 		}
 		
@@ -52,9 +52,9 @@ public class FirstFitHueristic extends BinPackingHueristic {
 	 * @param instance
 	 * @return An approximate solution to the 
 	 */
-	private BinPackingSolution unsafe(BinPackingInstance instance) {
+	private BinPackingSolution unsafe(MutableBinPackingInstance instance) {
 		List<Bin> binList = instance.binList();
-		List<Item> itemQueue = new ArrayList<Item>(instance.itemList());
+		List<Item> itemQueue = new ArrayList<Item>(instance.remainingItemList());
 		int binSize = instance.binSize();
 		while (!itemQueue.isEmpty()) {
 			Item item = itemQueue.remove(itemQueue.size() - 1);
@@ -85,7 +85,7 @@ public class FirstFitHueristic extends BinPackingHueristic {
 	
 	
 	@Override
-	public BinPackingSolution apply(BinPackingInstance instance) {
+	public BinPackingSolution apply(MutableBinPackingInstance instance) {
 		if (instance instanceof DynamicBinPackingInstance) {
 			return safe((DynamicBinPackingInstance) instance);
 		} else {

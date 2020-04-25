@@ -1,5 +1,7 @@
 package binpacking.interfaces;
 
+import java.util.List;
+
 import binpacking.Bin;
 import binpacking.Item;
 
@@ -25,6 +27,8 @@ public interface MutableBinPackingInstance extends BinPackingSolution, BinPackin
 	public abstract void removeFromBin(Bin bin, int itemPosition);
 
 	public abstract void removeLastBin();
+	
+	public abstract List<Item> remainingItemList();
 
 	/**
 	 * Change in which the bin has the item added to it.

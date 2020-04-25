@@ -4,6 +4,7 @@ import java.util.List;
 
 import binpacking.interfaces.BinPackingInstance;
 import binpacking.interfaces.BinPackingSolution;
+import binpacking.interfaces.MutableBinPackingInstance;
 
 public abstract class BinPackingHueristic {
 
@@ -13,6 +14,6 @@ public abstract class BinPackingHueristic {
 	 * @param instance The instance to approximate on.
 	 * @return The approximate solution.
 	 */
-	public abstract BinPackingSolution apply(BinPackingInstance instance);
+	public abstract BinPackingSolution apply(MutableBinPackingInstance instance);
 
 }
