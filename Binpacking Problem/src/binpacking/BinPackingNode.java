@@ -32,6 +32,8 @@ public class BinPackingNode implements MutableBinPackingInstance, Iterable<Branc
 	List<Bin> binList;
 
 	List<Item> itemList;
+	
+	List<Change<MutableBinPackingInstance>> changes;
 
 	int binIndex;
 	Bin nextBin;
@@ -137,6 +139,7 @@ public class BinPackingNode implements MutableBinPackingInstance, Iterable<Branc
 		upperBound = -1;
 		lowerBound = -1;
 
+		this.changes = changes;
 		applyChanges(changes);
 		
 		if (level == 0) {
@@ -231,9 +234,8 @@ public class BinPackingNode implements MutableBinPackingInstance, Iterable<Branc
 			int ub = solutionList.size();
 			/** Pass in the result as a possible solution. */
 			model.checkSolution(result);
-			model.trySetUpperBound(ub);
-			upperBound = model.getUpperBound();
 		}
+		upperBound = model.bestSolutionValue();
 		return upperBound;
 	}
 
@@ -382,6 +384,10 @@ public class BinPackingNode implements MutableBinPackingInstance, Iterable<Branc
 
 	public BinPackingModel getModel() {
 		return model;
+	}
+	
+	public String toString() {
+		return "(Level " + level + " Node: " + changes + " solution: " + model.bestSolutionValue() + ")";
 	}
 
 }

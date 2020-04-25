@@ -60,6 +60,10 @@ public interface MutableBinPackingInstance extends BinPackingSolution, BinPackin
 			instance.addItem(addition);
 			instance.removeFromBin(bin, itemPosition);
 		}
+		
+		public String toString() {
+			return "(AddToBin: " + addition + " to bin " + bin.getPosition() + ")";
+		}
 
 	}
 
@@ -90,6 +94,10 @@ public interface MutableBinPackingInstance extends BinPackingSolution, BinPackin
 		public void reverseChange(MutableBinPackingInstance instance) {
 			instance.addItem(addition);
 			instance.removeLastBin();
+		}
+		
+		public String toString() {
+			return "(NewBin: " + addition + ")";
 		}
 	}
 

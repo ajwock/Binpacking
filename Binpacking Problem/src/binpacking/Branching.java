@@ -14,7 +14,7 @@ public class Branching {
 
 	int branches;
 
-	StringBuilder treeTracer;
+	TreeTracer treeTracer;
 
 	BoundType ubcalc;
 	BoundType lbcalc;
@@ -41,7 +41,7 @@ public class Branching {
 	public Branching(boolean traceTree, boolean parentalUpperBound, boolean parentalLowerBound) {
 		branches = 0;
 		if (traceTree) {
-			treeTracer = new StringBuilder();
+			treeTracer = new PrintingTreeTracer();
 			brancher = new TracingBrancher();
 		} else {
 			brancher = new NoTraceBrancher();
@@ -78,29 +78,62 @@ public class Branching {
 		}
 
 	}
+	
+	public Branching(boolean traceTree) {
+		this(traceTree, false, false);
+	}
+	
+	public Branching() {
+		this(false);
+	}
 
 	private interface BoundType {
 		public int bound(BranchingNode parent, BranchingNode child);
 	}
 
-	private void traceNodeMidString(BranchingNode node, String ms) {
-		for (int i = 0; i < node.level(); i++) {
-			treeTracer.append("--");
+	private interface TreeTracer {
+		public void traceNode(BranchingNode node, int lb, int ub);
+		public void traceNode(BranchingNode node);
+	}
+	
+	/**
+	 * This class is used to print the branching tree as branching occurs.
+	 * Useful for debugging because of the real time updates.
+	 * 
+	 * @author Andrew Wock
+	 *
+	 */
+	private class PrintingTreeTracer implements TreeTracer {
+		
+		StringBuilder sb;
+		
+		private void traceNodeMidString(BranchingNode node, StringBuilder ms) {
+			sb = new StringBuilder();
+			for (int i = 0; i < node.level(); i++) {
+				sb.insert(0, "--");
+			}
+			sb.append(ms);
+			sb.append(": ");
+			sb.append(node);
+			sb.append("\n");
+			System.out.print(sb);
 		}
 
-		treeTracer.append(": ");
-		treeTracer.append(node);
-		treeTracer.append("\n");
-	}
+		public void traceNode(BranchingNode node, int lb, int ub) {
+			StringBuilder ms = new StringBuilder();
+			ms.append(lb);
+			ms.append(" <? ");
+			ms.append(ub);
+			traceNodeMidString(node, ms);
+		}
 
-	public void traceNode(BranchingNode node, int lb, int ub) {
-		String ms = "" + lb + " <? " + ub;
-		traceNodeMidString(node, ms);
+		public void traceNode(BranchingNode node) {
+			traceNodeMidString(node, new StringBuilder("leaf"));
+		}
+		
 	}
+	
 
-	public void traceNode(BranchingNode node) {
-		traceNodeMidString(node, "leaf");
-	}
 
 	private interface Brancher {
 		public void branch(BranchingNode node);
@@ -142,13 +175,13 @@ public class Branching {
 					int lb = lbcalc.bound(node, newBranch);
 					int ub = ubcalc.bound(node, newBranch);
 
-					traceNode(newBranch, lb, ub);
+					treeTracer.traceNode(newBranch, lb, ub);
 
 					if (lb < ub) {
 						branch(newBranch);
 					}
 				} else {
-					traceNode(newBranch);
+					treeTracer.traceNode(newBranch);
 				}
 				// More advanced nodes may want to be able to restore shared resources.
 				newBranch.destructor();

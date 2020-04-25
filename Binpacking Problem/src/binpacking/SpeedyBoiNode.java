@@ -17,10 +17,10 @@ import binpacking.interfaces.MutableBinPackingInstance;
  *
  */
 public class SpeedyBoiNode extends BinPackingNode implements DynamicBinPackingInstance {
-	
+
 	ArrayList<List<Change<MutableBinPackingInstance>>> changeList;
 	List<Change<MutableBinPackingInstance>> currentFrame;
-	
+
 	@Override
 	public void applyChanges(List<Change<MutableBinPackingInstance>> changes) {
 		if (changeList == null) {
@@ -35,19 +35,19 @@ public class SpeedyBoiNode extends BinPackingNode implements DynamicBinPackingIn
 			while (!changeList.isEmpty()) {
 				popChangeFrame();
 			}
-		}	
+		}
 	}
-	
+
 	public void newChangeFrame() {
 		currentFrame = new ArrayList<Change<MutableBinPackingInstance>>();
 		changeList.add(currentFrame);
 	}
-	
+
 	public void pushChange(Change<MutableBinPackingInstance> change) {
 		change.applyChange(this);
 		currentFrame.add(change);
 	}
-	
+
 	public void pushChangeFrame(List<Change<MutableBinPackingInstance>> changes) {
 		currentFrame = changes;
 		changeList.add(changes);
@@ -55,7 +55,7 @@ public class SpeedyBoiNode extends BinPackingNode implements DynamicBinPackingIn
 			change.applyChange(this);
 		}
 	}
-	
+
 	public void popChangeFrame() {
 		List<Change<MutableBinPackingInstance>> poppedChanges = changeList.remove(changeList.size() - 1);
 		while (!poppedChanges.isEmpty()) {
@@ -67,28 +67,30 @@ public class SpeedyBoiNode extends BinPackingNode implements DynamicBinPackingIn
 			currentFrame = changeList.get(changeList.size() - 1);
 		}
 	}
-	
+
 	@Override
 	public int upperBound() {
-		//Upper bound can be an expensive operation- some basic memoization in case we want to see it multiple times.
+		// Upper bound can be an expensive operation- some basic memoization in case we
+		// want to see it multiple times.
 		if (upperBound == -1) {
-			//Apply an appromixation hueristic to the remaining instance.
+			// Apply an appromixation hueristic to the remaining instance.
 			BinPackingSolution result = hueristic.apply(this);
 			int ub = binList.size();
 			/** Pass in the result as a possible solution. */
 			model.checkSolution(result);
-			model.trySetUpperBound(ub);
-			//Many changes are applied to create the approximation.
-			//Undo those.
+			// Many changes are applied to create the approximation.
+			// Undo those.
 			this.popChangeFrame();
-			//Changes invalidate bounds, so set the variable last.
-			upperBound = model.getUpperBound();
 		}
+		// Changes invalidate bounds, so set the variable last.
+		upperBound = model.bestSolutionValue();
 		return upperBound;
 	}
 
 	@Override
-	public BinPackingNode newNode(BinPackingInstance problem, BinPackingModel model, int lvl, List<Change<MutableBinPackingInstance>> changes, BinPackingHueristic hueristic, int remainingItemWeight, int remainingSpace) {
+	public BinPackingNode newNode(BinPackingInstance problem, BinPackingModel model, int lvl,
+			List<Change<MutableBinPackingInstance>> changes, BinPackingHueristic hueristic, int remainingItemWeight,
+			int remainingSpace) {
 		return new SpeedyBoiNode(problem, model, lvl, changes, hueristic, remainingItemWeight, remainingSpace);
 	}
 
@@ -96,9 +98,10 @@ public class SpeedyBoiNode extends BinPackingNode implements DynamicBinPackingIn
 	public List<Bin> binList() {
 		return binList;
 	}
-	
+
 	/**
-	 * Need to return a deep copy of the solution so that it isn't somehow clobbered.
+	 * Need to return a deep copy of the solution so that it isn't somehow
+	 * clobbered.
 	 */
 	@Override
 	public List<Bin> getSolution() {
@@ -114,8 +117,9 @@ public class SpeedyBoiNode extends BinPackingNode implements DynamicBinPackingIn
 	 * @param remainingItemWeight
 	 * @param remainingSpace
 	 */
-	public SpeedyBoiNode(BinPackingInstance problem, BinPackingModel model, int lvl, List<Change<MutableBinPackingInstance>> changes,
-			BinPackingHueristic hueristic, int remainingItemWeight, int remainingSpace) {
+	public SpeedyBoiNode(BinPackingInstance problem, BinPackingModel model, int lvl,
+			List<Change<MutableBinPackingInstance>> changes, BinPackingHueristic hueristic, int remainingItemWeight,
+			int remainingSpace) {
 		super(problem, model, lvl, changes, hueristic, remainingItemWeight, remainingSpace);
 	}
 
@@ -158,6 +162,9 @@ public class SpeedyBoiNode extends BinPackingNode implements DynamicBinPackingIn
 	 */
 	public SpeedyBoiNode(BinPackingInstance problem) {
 		super(problem);
+		// Need to initialize parental upper bound first to avoid item dupe
+		// bugs.
+		this.upperBound();
 	}
 
 }

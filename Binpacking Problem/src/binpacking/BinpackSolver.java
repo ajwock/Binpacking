@@ -21,8 +21,10 @@ public class BinpackSolver {
 	static long totalTime;
 	/** True if the items in the solution should be printed out, false otherwise */
 	static boolean pVertices = true;
+	/** True if the branching tree should be printed out, false otherwise. */
+	static boolean traceTree = false;
 	/** The chosen heuristic to run for this program */
-	static String heuristic = "basic";
+	static String heuristic = "basicbnb";
 	
 	public static final String USAGE = "Usage: java -jar BinpackSolver.jar path/to/your/file [method] [-q]\n"
 			+ "Must include an input file argument.\n"
@@ -68,17 +70,23 @@ public class BinpackSolver {
 				switch (args[i]) {
 				case "-q":
 					pVertices = false;
+					traceTree = false;
+					break;
+				case "-v":
+					traceTree = true;
+					break;
 				case "-simplebnb":
-					BinpackSolver.heuristic = "basic";
+					BinpackSolver.heuristic = "basicbnb";
 					break;
 				case "-fastbnb":
-					BinpackSolver.heuristic = "fast";
+					BinpackSolver.heuristic = "fastbnb";
 					break;
 				case "-ffapprox":
 					BinpackSolver.heuristic = "ffapprox";
 					break;
 				}
 			}
+			original.setTraceTree(traceTree);
 		} else {
 			System.out.println(USAGE);
 			System.exit(1);
@@ -87,9 +95,9 @@ public class BinpackSolver {
 	
 	public static long dispatch() {
 		switch (BinpackSolver.heuristic) {
-		case "basic":
+		case "basicbnb":
 			return BinpackSolver.basic();
-		case "fast":
+		case "fastbnb":
 			return BinpackSolver.fast();
 		case "ffapprox":
 			return BinpackSolver.firstFitApprox();
