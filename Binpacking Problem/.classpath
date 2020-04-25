@@ -8,7 +8,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="Libraries/DataStructures.jar">
+	<classpathentry exported="true" kind="lib" path="Libraries/DataStructures.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>

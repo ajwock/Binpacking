@@ -21,7 +21,12 @@ public class Branching {
 			if (!newBranch.isLeaf()) {
 				int lb = newBranch.lowerBound();
 				int ub = newBranch.upperBound();
-	
+				BinPackingNode x = (BinPackingNode) newBranch;
+				for (int i = 0; i < x.level; i++) {
+					System.out.print("--");
+				}
+				System.out.print("" + lb + " " + ub + x.binList + "\n");
+
 				if (lb < ub) {
 					branch(newBranch);
 				}

@@ -93,7 +93,7 @@ public class SpeedyBoiNode extends BinPackingNode implements DynamicBinPackingIn
 	}
 
 	@Override
-	public ArrayList<Bin> binList() {
+	public List<Bin> binList() {
 		return binList;
 	}
 	

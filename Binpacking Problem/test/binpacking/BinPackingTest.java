@@ -8,7 +8,44 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import binpacking.interfaces.BinPackingInstance;
+import binpacking.interfaces.Change;
+import binpacking.interfaces.MutableBinPackingInstance;
+
 class BinPackingTest {
+
+	/**
+	 * This node is meant to force the upper bound to be higher, causing longer
+	 * branching periods during testing.
+	 * 
+	 * @author Andrew Wock
+	 *
+	 */
+	private class UBNode extends BinPackingNode {
+		
+		int boundOffset;
+
+		UBNode(BinPackingInstance problem, BinPackingModel model, int lvl,
+				List<Change<MutableBinPackingInstance>> changes, BinPackingHueristic hueristic, int remainingItemWeight,
+				int remainingSpace, int boundOffset) {
+			super(problem, model, lvl, changes, hueristic, remainingItemWeight, remainingSpace);
+		}
+
+		public UBNode(BinManager original, int boundOffset) {
+			super(original);
+			this.boundOffset = boundOffset;
+		}
+
+		public BinPackingNode newNode(BinPackingInstance problem, BinPackingModel model, int lvl,
+				List<Change<MutableBinPackingInstance>> changes, BinPackingHueristic hueristic, int remainingItemWeight,
+				int remainingSpace) {
+			return new UBNode(problem, model, lvl, changes, hueristic, remainingItemWeight, remainingSpace, boundOffset);
+		}
+
+		public int upperBound() {
+			return super.upperBound() + boundOffset;
+		}
+	}
 
 	@Test
 	void test() {
@@ -19,24 +56,21 @@ class BinPackingTest {
 				String testFileName = basename + i + ".bp";
 				pb.command("python", "testfiles/generateInstance.py", testFileName, "16");
 				Process process = pb.start();
-				int exitVal = process.waitFor();
+				process.waitFor();
 				String[] args = { testFileName };
 				BinpackSolver.resolveArgs(args);
 				BinPackingNode node1 = new BinPackingNode(BinpackSolver.original);
-				BinPackingModel model1= BinpackSolver.original.runOnNode(node1);
+				BinPackingModel model1 = BinpackSolver.original.runOnNode(node1);
 				BinpackSolver.outputInfo(testFileName);
-				
+
 				BinpackSolver.resolveArgs(args);
+
 				/**
-				 * Branches a whole lot more.  We want to see that with more branches the
+				 * Branches a whole lot more. We want to see that with more branches the
 				 * solution remains the same.
 				 */
-				BinPackingNode node2 = new BinPackingNode(BinpackSolver.original) {
-					public int upperBound() {
-						return super.upperBound() + 10;
-					}
-				};
-				BinPackingModel model2= BinpackSolver.original.runOnNode(node2);
+				BinPackingNode node2 = new UBNode(BinpackSolver.original, 1);
+				BinPackingModel model2 = BinpackSolver.original.runOnNode(node2);
 				BinpackSolver.outputInfo(testFileName);
 				assertEquals(model2, model1);
 			}
