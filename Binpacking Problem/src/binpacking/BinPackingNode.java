@@ -1,6 +1,7 @@
 package binpacking;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -85,6 +86,13 @@ public class BinPackingNode implements MutableBinPackingInstance, Iterable<Branc
 			item = null;
 		}
 	}
+	
+	public void assignItemPositions(List<Item> items) {
+		Collections.sort(items);
+		for (int i = 0; i < items.size(); i++) {
+			items.get(i).setPosition(i);
+		}
+	}
 
 	/**
 	 * Creates a node with the given problem, model, and level, as well as a list of
@@ -114,6 +122,9 @@ public class BinPackingNode implements MutableBinPackingInstance, Iterable<Branc
 
 		applyChanges(changes);
 		level = lvl;
+		if (level == 0) {
+			assignItemPositions(itemList);
+		}
 		isLeaf = level >= itemList.size();
 		if (isLeaf) {
 			model.checkSolution(this);

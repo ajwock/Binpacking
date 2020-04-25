@@ -28,7 +28,7 @@ public class Branching {
 				System.out.print("" + lb + " " + ub + x.binList + "\n");
 
 				if (lb < ub) {
-					branch(newBranch);
+					branch(newBranch);  
 				}
 			}
 			//More advanced nodes may want to be able to restore shared resources.
