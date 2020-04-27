@@ -4,7 +4,7 @@
     <eAnnotations xmi:id="_2gEFYIgsEeq-x7nngFD3YQ" source="http://ns.yatta.de/umllab">
       <contents xmi:type="ecore:EAnnotation" xmi:id="_2gEscIgsEeq-x7nngFD3YQ" source="codegen">
         <details xmi:id="_2gEscYgsEeq-x7nngFD3YQ" key="codegenDirectory" value="/Binpacking Problem/src"/>
-        <details xmi:id="_4HgkUIgsEeq-x7nngFD3YQ" key="AssociatedSourceCode" value="/Binpacking Problem/src/general/interfaces/DeepCopyable.java;1245476715/1;/Binpacking Problem/src/binpacking/branching/SimpleFFLBCalculator.java;1657935433/1;/Binpacking Problem/src/binpacking/branching/SimpleFFUBCalculator.java;1660960893/1;/Binpacking Problem/src/binpacking/branching/SpeedyBoiNode.java;978482829/1;/Binpacking Problem/src/binpacking/controller/BinpackSolver.java;4137375990/1;/Binpacking Problem/src/binpacking/controller/SnapReader.java;3870756720/1;/Binpacking Problem/src/binpacking/interfaces/BinPackingHueristic.java;4161536164/1;/Binpacking Problem/src/binpacking/interfaces/BinPackingInstance.java;1735527250/1;/Binpacking Problem/src/binpacking/interfaces/BinPackingSolution.java;1049378369/1;/Binpacking Problem/src/binpacking/interfaces/DeepCopyableMutableBinPackingInstance.java;1905341330/1;/Binpacking Problem/src/binpacking/interfaces/DynamicBinPackingInstance.java;2500153485/1;/Binpacking Problem/src/binpacking/interfaces/MutableBinPackingInstance.java;3463308019/1;/Binpacking Problem/src/binpacking/model/Bin.java;1613673595/1;/Binpacking Problem/src/binpacking/model/BinManager.java;1212795697/1;/Binpacking Problem/src/binpacking/model/BinPackingModel.java;1245182019/1;/Binpacking Problem/src/binpacking/model/FirstFitHueristic.java;1809691427/1;/Binpacking Problem/src/binpacking/model/Item.java;2411084548/1;/Binpacking Problem/src/general/interfaces/ChangeStack.java;1459957021/1;/Binpacking Problem/src/bnb/OptimalSolutionException.java;1648756366/1;/Binpacking Problem/src/bnb/interfaces/BoundCalculator.java;126584195/1;/Binpacking Problem/src/bnb/interfaces/BranchingNode.java;2312539339/1;/Binpacking Problem/src/general/interfaces/Change.java;3183565754/1;/Binpacking Problem/src/bnb/Branching.java;2957887890/1;/Binpacking Problem/src/binpacking/branching/BinPackingNode.java;3260636927/1;"/>
+        <details xmi:id="_4HgkUIgsEeq-x7nngFD3YQ" key="AssociatedSourceCode" value="/Binpacking Problem/src/general/interfaces/DeepCopyable.java;1245476715/1;/Binpacking Problem/src/binpacking/branching/SimpleFFLBCalculator.java;1657935433/1;/Binpacking Problem/src/binpacking/branching/SimpleFFUBCalculator.java;1660960893/1;/Binpacking Problem/src/binpacking/branching/SpeedyBoiNode.java;978482829/1;/Binpacking Problem/src/binpacking/controller/BinpackSolver.java;678167404/1;/Binpacking Problem/src/binpacking/controller/SnapReader.java;3870756720/1;/Binpacking Problem/src/binpacking/interfaces/BinPackingHueristic.java;4161536164/1;/Binpacking Problem/src/binpacking/interfaces/BinPackingInstance.java;1735527250/1;/Binpacking Problem/src/binpacking/interfaces/BinPackingSolution.java;1049378369/1;/Binpacking Problem/src/binpacking/interfaces/DeepCopyableMutableBinPackingInstance.java;1905341330/1;/Binpacking Problem/src/binpacking/interfaces/DynamicBinPackingInstance.java;2500153485/1;/Binpacking Problem/src/binpacking/interfaces/MutableBinPackingInstance.java;3463308019/1;/Binpacking Problem/src/binpacking/model/Bin.java;1613673595/1;/Binpacking Problem/src/binpacking/model/BinManager.java;1212795697/1;/Binpacking Problem/src/binpacking/model/BinPackingModel.java;1245182019/1;/Binpacking Problem/src/binpacking/model/FirstFitHueristic.java;1809691427/1;/Binpacking Problem/src/binpacking/model/Item.java;2411084548/1;/Binpacking Problem/src/general/interfaces/ChangeStack.java;1459957021/1;/Binpacking Problem/src/bnb/OptimalSolutionException.java;1648756366/1;/Binpacking Problem/src/bnb/interfaces/BoundCalculator.java;126584195/1;/Binpacking Problem/src/bnb/interfaces/BranchingNode.java;2312539339/1;/Binpacking Problem/src/general/interfaces/Change.java;3183565754/1;/Binpacking Problem/src/bnb/Branching.java;2957887890/1;/Binpacking Problem/src/binpacking/branching/BinPackingNode.java;3260636927/1;"/>
       </contents>
     </eAnnotations>
     <elementImport xmi:id="_3QrqAIgsEeq-x7nngFD3YQ">
@@ -2433,7 +2433,7 @@ significantly different behavior.
       </packagedElement>
       <packagedElement xmi:type="uml:Package" xmi:id="_3Pld0IgsEeq-x7nngFD3YQ" name="controller">
         <packagedElement xmi:type="uml:Class" xmi:id="_3UgaEIgsEeq-x7nngFD3YQ" name="BinpackSolver">
-          <ownedComment xmi:id="_3nFX0ogsEeq-x7nngFD3YQ">
+          <ownedComment xmi:id="_Z2qJEIg5Eeq-x7nngFD3YQ">
             <body>Handles the main method, as well as the output of information concerning the&#xD;
 knapsack.&#xD;
 &#xD;
@@ -2442,10 +2442,10 @@ knapsack.&#xD;
  *</body>
           </ownedComment>
           <ownedAttribute xmi:id="_3j8kQIgsEeq-x7nngFD3YQ" name="original" isStatic="true" type="_3WCrIIgsEeq-x7nngFD3YQ" association="_3nhcsYgsEeq-x7nngFD3YQ"/>
-          <ownedAttribute xmi:id="_3j9yYIgsEeq-x7nngFD3YQ" name="startTime" visibility="package" isStatic="true">
+          <ownedAttribute xmi:id="_3j9yYIgsEeq-x7nngFD3YQ" name="startTime" visibility="public" isStatic="true">
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#long"/>
           </ownedAttribute>
-          <ownedAttribute xmi:id="_3j_AgIgsEeq-x7nngFD3YQ" name="totalTime" visibility="package" isStatic="true">
+          <ownedAttribute xmi:id="_3j_AgIgsEeq-x7nngFD3YQ" name="totalTime" visibility="public" isStatic="true">
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#long"/>
           </ownedAttribute>
           <ownedAttribute xmi:id="_3kAOoIgsEeq-x7nngFD3YQ" name="pVertices" visibility="package" isStatic="true">
@@ -2463,6 +2463,10 @@ knapsack.&#xD;
           <ownedAttribute xmi:id="_3kfW0YgsEeq-x7nngFD3YQ" name="USAGE" isLeaf="true" isStatic="true" isReadOnly="true">
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
             <defaultValue xmi:type="uml:LiteralString" xmi:id="_3kf94IgsEeq-x7nngFD3YQ" value="&quot;Usage: java -jar BinpackSolver.jar path/to/your/file [method] [-q]\n&quot;&#xD;&#xA;&#x9;&#x9;&#x9;+ &quot;Must include an input file argument.\n&quot;&#xD;&#xA;&#x9;&#x9;&#x9;+ &quot;optional \&quot;method\&quot; argument determines how the BP problem is solved.\n&quot; + &quot;Methods are:\n&quot;&#xD;&#xA;&#x9;&#x9;&#x9;+ &quot;  -simplebnb\n&quot;&#xD;&#xA;&#x9;&#x9;&#x9;+ &quot;      Runs an naive implementation of branch and bound.  Guaranteed optimal solution, and rather slow.\n&quot;&#xD;&#xA;&#x9;&#x9;&#x9;+ &quot;  -fastbnb\n&quot;&#xD;&#xA;&#x9;&#x9;&#x9;+ &quot;      Runs an advanced implementation of branch and bound.  Guaranteed optimal solution, and relatively fast.\n&quot;&#xD;&#xA;&#x9;&#x9;&#x9;+ &quot;      Currently in development, buggy.\n&quot; + &quot;  -ffapprox\n&quot;&#xD;&#xA;&#x9;&#x9;&#x9;+ &quot;      Runs a first-fit approximation.  Suboptimal solution but very fast.\n&quot;&#xD;&#xA;&#x9;&#x9;&#x9;+ &quot;The optional -q argument omits the solution from the output to reduce output size.&quot;"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_A7wxwIg5Eeq-x7nngFD3YQ" name="silent" visibility="package" isStatic="true">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#boolean"/>
+            <defaultValue xmi:type="uml:LiteralString" xmi:id="_A7wxwYg5Eeq-x7nngFD3YQ" value="false"/>
           </ownedAttribute>
           <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_3mEEIIgsEeq-x7nngFD3YQ" name="main" specification="_3Ui2UIgsEeq-x7nngFD3YQ">
             <ownedParameter xmi:id="_3mEEIYgsEeq-x7nngFD3YQ" name="args">
@@ -2491,10 +2495,16 @@ knapsack.&#xD;
 				System.exit(1);&#xD;
 			}&#xD;
 			// Checks to see if the vertices in the cover should be printed&#xD;
+			silent = false;&#xD;
+			traceTree = false;&#xD;
+			pVertices = true;&#xD;
 			for (int i = 1; i &lt; args.length; i++) {&#xD;
 				switch (args[i]) {&#xD;
 				case &quot;-q&quot;:&#xD;
 					pVertices = false;&#xD;
+					break;&#xD;
+				case &quot;--silent&quot;:&#xD;
+					silent = true;&#xD;
 					traceTree = false;&#xD;
 					break;&#xD;
 				case &quot;-v&quot;:&#xD;
@@ -2519,7 +2529,9 @@ knapsack.&#xD;
 	</body>
           </ownedBehavior>
           <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_3mErM4gsEeq-x7nngFD3YQ" name="dispatch" specification="_3UrZMIgsEeq-x7nngFD3YQ">
-            <ownedParameter xmi:id="_3mErNIgsEeq-x7nngFD3YQ" type="_3VIsMIgsEeq-x7nngFD3YQ" direction="return"/>
+            <ownedParameter xmi:id="_3mErNIgsEeq-x7nngFD3YQ" type="_3VIsMIgsEeq-x7nngFD3YQ" direction="return">
+              <name xsi:nil="true"/>
+            </ownedParameter>
             <language>java</language>
             <body>switch (BinpackSolver.heuristic) {&#xD;
 		case &quot;basicbnb&quot;:&#xD;
@@ -2537,7 +2549,9 @@ knapsack.&#xD;
               <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
               <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_3mFSQogsEeq-x7nngFD3YQ" value="*"/>
             </ownedParameter>
-            <ownedParameter xmi:id="_3mFSQ4gsEeq-x7nngFD3YQ" type="_3VIsMIgsEeq-x7nngFD3YQ" direction="return"/>
+            <ownedParameter xmi:id="_3mFSQ4gsEeq-x7nngFD3YQ" type="_3VIsMIgsEeq-x7nngFD3YQ" direction="return">
+              <name xsi:nil="true"/>
+            </ownedParameter>
             <language>java</language>
             <body>BinpackSolver.resolveArgs(args);&#xD;
 		BinPackingSolution sol = BinpackSolver.dispatch();&#xD;
@@ -2546,7 +2560,9 @@ knapsack.&#xD;
 	</body>
           </ownedBehavior>
           <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_3mFSRIgsEeq-x7nngFD3YQ" name="basic" specification="_3UvDkIgsEeq-x7nngFD3YQ">
-            <ownedParameter xmi:id="_3mFSRYgsEeq-x7nngFD3YQ" type="_3VIsMIgsEeq-x7nngFD3YQ" direction="return"/>
+            <ownedParameter xmi:id="_3mFSRYgsEeq-x7nngFD3YQ" type="_3VIsMIgsEeq-x7nngFD3YQ" direction="return">
+              <name xsi:nil="true"/>
+            </ownedParameter>
             <language>java</language>
             <body>startTime = System.currentTimeMillis();&#xD;
 		BinPackingSolution k = original.unrefined();&#xD;
@@ -2555,7 +2571,9 @@ knapsack.&#xD;
 	</body>
           </ownedBehavior>
           <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_3mHHcIgsEeq-x7nngFD3YQ" name="fast" specification="_3UvqoIgsEeq-x7nngFD3YQ">
-            <ownedParameter xmi:id="_3mHHcYgsEeq-x7nngFD3YQ" type="_3VIsMIgsEeq-x7nngFD3YQ" direction="return"/>
+            <ownedParameter xmi:id="_3mHHcYgsEeq-x7nngFD3YQ" type="_3VIsMIgsEeq-x7nngFD3YQ" direction="return">
+              <name xsi:nil="true"/>
+            </ownedParameter>
             <language>java</language>
             <body>startTime = System.currentTimeMillis();&#xD;
 		BinPackingSolution k= original.fast();&#xD;
@@ -2564,7 +2582,9 @@ knapsack.&#xD;
 	</body>
           </ownedBehavior>
           <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_3mHHcogsEeq-x7nngFD3YQ" name="firstFitApprox" specification="_3UwRsIgsEeq-x7nngFD3YQ">
-            <ownedParameter xmi:id="_3mHHc4gsEeq-x7nngFD3YQ" type="_3VIsMIgsEeq-x7nngFD3YQ" direction="return"/>
+            <ownedParameter xmi:id="_3mHHc4gsEeq-x7nngFD3YQ" type="_3VIsMIgsEeq-x7nngFD3YQ" direction="return">
+              <name xsi:nil="true"/>
+            </ownedParameter>
             <language>java</language>
             <body>startTime = System.currentTimeMillis();&#xD;
 		BinPackingSolution k = original.ffapprox();&#xD;
@@ -2577,17 +2597,19 @@ knapsack.&#xD;
               <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
             </ownedParameter>
             <language>java</language>
-            <body>System.out.println(&quot;filename	&quot; + inputFile);&#xD;
-		System.out.println(&quot;items		&quot; + original.getNumItems());&#xD;
-		System.out.println(&quot;capacity	&quot; + original.getCapacity());&#xD;
-		System.out.println(&quot;bins 		&quot; + original.getNumBins());&#xD;
-		System.out.println(&quot;mode		&quot; + BinpackSolver.heuristic);&#xD;
-		// Prints out the chosen heuristic&#xD;
-		System.out.println(&quot;runtime  	&quot; + totalTime);&#xD;
-		System.out.println(&quot;branches 	&quot; + original.getBranches());&#xD;
-		if (pVertices) {&#xD;
-			for (Bin bin : original.binList()) {&#xD;
-				System.out.println(bin);&#xD;
+            <body>if (!silent) {&#xD;
+			System.out.println(&quot;filename	&quot; + inputFile);&#xD;
+			System.out.println(&quot;items		&quot; + original.getNumItems());&#xD;
+			System.out.println(&quot;capacity	&quot; + original.getCapacity());&#xD;
+			System.out.println(&quot;bins 		&quot; + original.getNumBins());&#xD;
+			System.out.println(&quot;mode		&quot; + BinpackSolver.heuristic);&#xD;
+			// Prints out the chosen heuristic&#xD;
+			System.out.println(&quot;runtime  	&quot; + totalTime);&#xD;
+			System.out.println(&quot;branches 	&quot; + original.getBranches());&#xD;
+			if (pVertices) {&#xD;
+				for (Bin bin : original.binList()) {&#xD;
+					System.out.println(bin);&#xD;
+				}&#xD;
 			}&#xD;
 		}&#xD;
 	</body>
@@ -3443,4 +3465,5 @@ much as possible.
   <UMLLabProfile:Reference xmi:id="_3nyicIgsEeq-x7nngFD3YQ" base_Element="_3nx7YIgsEeq-x7nngFD3YQ"/>
   <UMLLabProfile:Reference xmi:id="_3nzJgIgsEeq-x7nngFD3YQ" base_Element="_3nyicYgsEeq-x7nngFD3YQ"/>
   <UMLLabProfile:Reference xmi:id="_3nzwkIgsEeq-x7nngFD3YQ" base_Element="_3nzJgYgsEeq-x7nngFD3YQ"/>
+  <UMLLabProfile:LegacyStyledElement xmi:id="_A7xY0Ig5Eeq-x7nngFD3YQ" base_Element="_A7wxwIg5Eeq-x7nngFD3YQ"/>
 </xmi:XMI>

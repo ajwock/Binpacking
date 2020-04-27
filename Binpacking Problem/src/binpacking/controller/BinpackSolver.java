@@ -18,13 +18,15 @@ public class BinpackSolver {
 	/** The knapsack that's to be solved */
 	public static BinManager original;
 	/** The start time of the chosen heuristic */
-	static long startTime;
+	public static long startTime;
 	/** The total amount of time that the chosen heuristic took to finish running */
-	static long totalTime;
+	public static long totalTime;
 	/** True if the items in the solution should be printed out, false otherwise */
 	static boolean pVertices = true;
 	/** True if the branching tree should be printed out, false otherwise. */
 	static boolean traceTree = false;
+	/** True if there should be no output. */
+	static boolean silent = false;
 	/** The chosen heuristic to run for this program */
 	static String heuristic = "basicbnb";
 
@@ -66,10 +68,16 @@ public class BinpackSolver {
 				System.exit(1);
 			}
 			// Checks to see if the vertices in the cover should be printed
+			silent = false;
+			traceTree = false;
+			pVertices = true;
 			for (int i = 1; i < args.length; i++) {
 				switch (args[i]) {
 				case "-q":
 					pVertices = false;
+					break;
+				case "--silent":
+					silent = true;
 					traceTree = false;
 					break;
 				case "-v":
@@ -146,17 +154,19 @@ public class BinpackSolver {
 	 * @param inputFile the file used to create the original graph
 	 */
 	public static void outputInfo(String inputFile) {
-		System.out.println("filename	" + inputFile);
-		System.out.println("items		" + original.getNumItems());
-		System.out.println("capacity	" + original.getCapacity());
-		System.out.println("bins 		" + original.getNumBins());
-		System.out.println("mode		" + BinpackSolver.heuristic);
-		// Prints out the chosen heuristic
-		System.out.println("runtime  	" + totalTime);
-		System.out.println("branches 	" + original.getBranches());
-		if (pVertices) {
-			for (Bin bin : original.binList()) {
-				System.out.println(bin);
+		if (!silent) {
+			System.out.println("filename	" + inputFile);
+			System.out.println("items		" + original.getNumItems());
+			System.out.println("capacity	" + original.getCapacity());
+			System.out.println("bins 		" + original.getNumBins());
+			System.out.println("mode		" + BinpackSolver.heuristic);
+			// Prints out the chosen heuristic
+			System.out.println("runtime  	" + totalTime);
+			System.out.println("branches 	" + original.getBranches());
+			if (pVertices) {
+				for (Bin bin : original.binList()) {
+					System.out.println(bin);
+				}
 			}
 		}
 	}
