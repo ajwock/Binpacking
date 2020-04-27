@@ -1,4 +1,4 @@
-package binpacking.interfaces;
+package general.interfaces;
 
 import java.util.List;
 

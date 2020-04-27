@@ -1,10 +1,11 @@
-package binpacking.interfaces;
+package bnb.interfaces;
 
 import java.util.Iterator;
 
 public interface BranchingNode extends Iterator<BranchingNode>, Iterable<BranchingNode> {
 
-	void destructor();
+	default void destructor() {
+	}
 
 	boolean isLeaf();
 

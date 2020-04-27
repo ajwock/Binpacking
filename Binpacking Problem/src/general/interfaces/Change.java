@@ -1,4 +1,4 @@
-package binpacking.interfaces;
+package general.interfaces;
 
 public interface Change<T> {
 

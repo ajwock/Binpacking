@@ -11,10 +11,10 @@ import binpacking.branching.BinPackingNode;
 import binpacking.controller.BinpackSolver;
 import binpacking.interfaces.BinPackingHueristic;
 import binpacking.interfaces.BinPackingInstance;
-import binpacking.interfaces.Change;
 import binpacking.interfaces.MutableBinPackingInstance;
 import binpacking.model.BinManager;
 import binpacking.model.BinPackingModel;
+import general.interfaces.Change;
 
 class BinPackingTest {
 

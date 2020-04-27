@@ -6,20 +6,22 @@ import java.util.Stack;
 
 import binpacking.interfaces.BinPackingHueristic;
 import binpacking.interfaces.BinPackingSolution;
+import binpacking.interfaces.DeepCopyableMutableBinPackingInstance;
 import binpacking.interfaces.DynamicBinPackingInstance;
 import binpacking.interfaces.MutableBinPackingInstance;
+import general.interfaces.DeepCopyable;
 
 public class FirstFitHueristic implements BinPackingHueristic {
 
 	/**
-	 * Changes the whole instance, but said changes are recorded in
-	 * DynamicBinPackingInstance style. A simple call to popChangeFrame will undo
+	 * Changes the whole instance, but said changes are revertible in
+	 * ChangeStack style. A simple call to popChangeFrame will undo
 	 * the approximation.
 	 * 
 	 * @param instance The BP instance.
 	 * @return An approximate solution to the BP problem.
 	 */
-	private BinPackingSolution safe(DynamicBinPackingInstance instance) {
+	private BinPackingSolution revertible(DynamicBinPackingInstance instance) {
 		Stack<Item> itemStack = new Stack<Item>();
 		for (Item item : instance.remainingItemList()) {
 			itemStack.push(item);
@@ -44,6 +46,17 @@ public class FirstFitHueristic implements BinPackingHueristic {
 	}
 
 	/**
+	 * Called if the instance is known to be deepCopyable.
+	 * This will copy the instance before passing it to clobber.
+	 * 
+	 * @param instance The instance to approximate.
+	 * @return The approximate solution.
+	 */
+	private BinPackingSolution noClobber(DeepCopyableMutableBinPackingInstance instance) {
+		return clobber(instance.deepCopy());
+	}
+
+	/**
 	 * This approximation simply clobbers whatever instance is passed into it with
 	 * the approximation. Recommended to use a copy constructor if this is being
 	 * used for lower bound use.
@@ -51,7 +64,7 @@ public class FirstFitHueristic implements BinPackingHueristic {
 	 * @param instance
 	 * @return An approximate solution to the
 	 */
-	private BinPackingSolution unsafe(MutableBinPackingInstance instance) {
+	private BinPackingSolution clobber(MutableBinPackingInstance instance) {
 		List<Bin> binList = instance.binList();
 		List<Item> itemQueue = new ArrayList<Item>(instance.remainingItemList());
 		int binSize = instance.binSize();
@@ -84,9 +97,12 @@ public class FirstFitHueristic implements BinPackingHueristic {
 	@Override
 	public BinPackingSolution apply(MutableBinPackingInstance instance) {
 		if (instance instanceof DynamicBinPackingInstance) {
-			return safe((DynamicBinPackingInstance) instance);
+			return revertible((DynamicBinPackingInstance) instance);
+		} else if (instance instanceof DeepCopyableMutableBinPackingInstance) {
+			return noClobber((DeepCopyableMutableBinPackingInstance) instance);
+			
 		} else {
-			return unsafe(instance);
+			return clobber(instance);
 		}
 	}
 

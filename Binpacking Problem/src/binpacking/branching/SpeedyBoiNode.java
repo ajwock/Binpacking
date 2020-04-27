@@ -9,11 +9,11 @@ import java.util.List;
 import binpacking.interfaces.BinPackingHueristic;
 import binpacking.interfaces.BinPackingInstance;
 import binpacking.interfaces.BinPackingSolution;
-import binpacking.interfaces.Change;
 import binpacking.interfaces.DynamicBinPackingInstance;
 import binpacking.interfaces.MutableBinPackingInstance;
 import binpacking.model.Bin;
 import binpacking.model.BinPackingModel;
+import general.interfaces.Change;
 
 /**
  * @author dzdt

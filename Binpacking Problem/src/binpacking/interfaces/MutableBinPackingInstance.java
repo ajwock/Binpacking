@@ -4,6 +4,7 @@ import java.util.List;
 
 import binpacking.model.Bin;
 import binpacking.model.Item;
+import general.interfaces.Change;
 
 /**
  * Interface that represents an instance of the Bin Packing problem.
@@ -15,7 +16,7 @@ import binpacking.model.Item;
  * @author Andrew Wock
  *
  */
-public interface MutableBinPackingInstance extends BinPackingSolution, BinPackingInstance {
+public interface MutableBinPackingInstance extends BinPackingSolution, BinPackingInstance, Cloneable {
 
 	public abstract int addToBin(Bin bin, Item addition);
 

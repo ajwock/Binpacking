@@ -9,13 +9,16 @@ import java.util.NoSuchElementException;
 import binpacking.interfaces.BinPackingHueristic;
 import binpacking.interfaces.BinPackingInstance;
 import binpacking.interfaces.BinPackingSolution;
-import binpacking.interfaces.BranchingNode;
-import binpacking.interfaces.Change;
+import binpacking.interfaces.DeepCopyableMutableBinPackingInstance;
 import binpacking.interfaces.MutableBinPackingInstance;
 import binpacking.model.Bin;
 import binpacking.model.BinPackingModel;
 import binpacking.model.FirstFitHueristic;
 import binpacking.model.Item;
+import bnb.interfaces.BoundCalculator;
+import bnb.interfaces.BranchingNode;
+import general.interfaces.Change;
+import general.interfaces.DeepCopyable;
 
 /**
  * Handles the nodes at which the knapsack branches at
@@ -23,8 +26,8 @@ import binpacking.model.Item;
  * @author Gabe Reynolds and Drew Wock
  *
  */
-public class BinPackingNode implements MutableBinPackingInstance, Iterable<BranchingNode>, Iterator<BranchingNode>,
-		BinPackingSolution, BranchingNode {
+public class BinPackingNode implements DeepCopyableMutableBinPackingInstance, Iterable<BranchingNode>,
+		Iterator<BranchingNode>, BinPackingSolution, BranchingNode {
 	/** The level of the tree that this node is at. */
 	int level;
 	/** capacity of an empty bin */
@@ -52,6 +55,9 @@ public class BinPackingNode implements MutableBinPackingInstance, Iterable<Branc
 	int remainingItemWeight;
 	int remainingSpace;
 
+	BoundCalculator<BinPackingNode, Integer> upperBoundCalculator;
+	BoundCalculator<BinPackingNode, Integer> lowerBoundCalculator;
+
 	public int level() {
 		return level;
 	}
@@ -67,6 +73,10 @@ public class BinPackingNode implements MutableBinPackingInstance, Iterable<Branc
 			newList.add(new Bin(bin));
 		}
 		return newList;
+	}
+
+	public List<Bin> binListDirect() {
+		return binList;
 	}
 
 	public List<Item> itemList() {
@@ -157,6 +167,19 @@ public class BinPackingNode implements MutableBinPackingInstance, Iterable<Branc
 		selectItem();
 	}
 
+	protected void initializeBoundCalculators() {
+		upperBoundCalculator = new SimpleFFUBCalculator();
+		lowerBoundCalculator = new SimpleFFLBCalculator();
+	}
+
+	public void setUpperBoundCalculator(BoundCalculator<BinPackingNode, Integer> ubc) {
+		this.upperBoundCalculator = ubc;
+	}
+
+	public void setLowerBoundCalculator(BoundCalculator<BinPackingNode, Integer> lbc) {
+		this.lowerBoundCalculator = lbc;
+	}
+
 	/**
 	 * Creates a node with the given problem, model, and level.
 	 * 
@@ -223,39 +246,26 @@ public class BinPackingNode implements MutableBinPackingInstance, Iterable<Branc
 	}
 
 	@Override
-	public void destructor() {
-		;
-	}
-
-	@Override
 	public int upperBound() {
-		// Upper bound can be an expensive operation- some basic memoization in case we
-		// want to see it multiple times.
-		if (upperBound == -1) {
-			// Apply an appromixation hueristic to the remaining instance.
-			BinPackingNode temp = new BinPackingNode(this, model, level, hueristic, remainingItemWeight,
-					remainingSpace);
-			BinPackingSolution result = hueristic.apply(temp);
-			/** Pass in the result as a possible solution. */
-			model.checkSolution(result);
-		}
-		upperBound = model.bestSolutionValue();
-		return upperBound;
+		return upperBoundCalculator.bound(this);
 	}
 
 	@Override
 	public int lowerBound() {
-		if (lowerBound == -1) {
-			int difference = remainingItemWeight - remainingSpace;
-			int minExtraBins = difference > 0 ? (int) Math.ceil((double) difference / binSize()) : 0;
-			lowerBound = minExtraBins + binList.size();
-		}
-		return lowerBound;
+		return lowerBoundCalculator.bound(this);
+	}
+
+	public int getRemainingItemWeight() {
+		return remainingItemWeight;
+	}
+
+	public int getRemainingSpace() {
+		return remainingSpace;
 	}
 
 	public void invalidateBounds() {
-		upperBound = -1;
-		lowerBound = -1;
+		upperBoundCalculator.invalidateBound();
+		lowerBoundCalculator.invalidateBound();
 	}
 
 	public void setRemainingItemWeight(int weight) {
@@ -392,6 +402,14 @@ public class BinPackingNode implements MutableBinPackingInstance, Iterable<Branc
 
 	public String toString() {
 		return "(Level " + level + " Node: " + changes + " solution: " + model.bestSolutionValue() + ")";
+	}
+
+	public BinPackingHueristic getHueristic() {
+		return hueristic;
+	}
+
+	public BinPackingNode deepCopy() {
+		return new BinPackingNode(this);
 	}
 
 }

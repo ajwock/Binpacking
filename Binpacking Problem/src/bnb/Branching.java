@@ -1,6 +1,6 @@
 package bnb;
 
-import binpacking.interfaces.BranchingNode;
+import bnb.interfaces.BranchingNode;
 
 /**
  * 
