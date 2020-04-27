@@ -16,7 +16,7 @@ public class SimpleFFLBCalculator implements BoundCalculator<BinPackingNode, Int
 		return lowerBound;
 	}
 
-	public void invalidateBounds() {
+	public void invalidateBound() {
 		lowerBound = -1;
 	}
 

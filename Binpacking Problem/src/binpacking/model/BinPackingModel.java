@@ -7,7 +7,7 @@ import binpacking.interfaces.BinPackingSolution;
 /**
  * Keeps track of the global upper bound.
  */
-public class BinPackingModel {
+public class BinPackingModel implements BinPackingSolution {
 
 	public List<Bin> solution;
 	public int solutionValue;

@@ -2,6 +2,7 @@ package binpacking.controller;
 
 import java.io.IOException;
 
+import binpacking.interfaces.BinPackingSolution;
 import binpacking.model.Bin;
 import binpacking.model.BinManager;
 
@@ -92,7 +93,7 @@ public class BinpackSolver {
 		}
 	}
 
-	public static long dispatch() {
+	public static BinPackingSolution dispatch() {
 		switch (BinpackSolver.heuristic) {
 		case "basicbnb":
 			return BinpackSolver.basic();
@@ -101,13 +102,14 @@ public class BinpackSolver {
 		case "ffapprox":
 			return BinpackSolver.firstFitApprox();
 		}
-		return -1;
+		return null;
 	}
 
-	public static void startBPProgram(String args[]) {
+	public static BinPackingSolution startBPProgram(String args[]) {
 		BinpackSolver.resolveArgs(args);
-		BinpackSolver.dispatch();
+		BinPackingSolution sol = BinpackSolver.dispatch();
 		BinpackSolver.outputInfo(args[0]);
+		return sol;
 	}
 
 	/**
@@ -115,23 +117,23 @@ public class BinpackSolver {
 	 * 
 	 * @return the optimal bin packed solution
 	 */
-	private static long basic() {
+	private static BinPackingSolution basic() {
 		startTime = System.currentTimeMillis();
-		long k = original.unrefined();
+		BinPackingSolution k = original.unrefined();
 		totalTime = System.currentTimeMillis() - startTime;
 		return k;
 	}
 
-	private static long fast() {
+	private static BinPackingSolution fast() {
 		startTime = System.currentTimeMillis();
-		long k = original.fast();
+		BinPackingSolution k= original.fast();
 		totalTime = System.currentTimeMillis() - startTime;
 		return k;
 	}
 
-	private static long firstFitApprox() {
+	private static BinPackingSolution firstFitApprox() {
 		startTime = System.currentTimeMillis();
-		long k = original.ffapprox();
+		BinPackingSolution k = original.ffapprox();
 		totalTime = System.currentTimeMillis() - startTime;
 		return k;
 	}

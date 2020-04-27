@@ -155,6 +155,22 @@ public class BinPackingNode implements DeepCopyableMutableBinPackingInstance, It
 		upperBound = -1;
 		lowerBound = -1;
 
+		if (problem instanceof BinPackingNode) {
+			BinPackingNode node = (BinPackingNode) problem;
+			if (node.getUpperBoundCalculator() != null) {
+				this.setUpperBoundCalculator(((BinPackingNode) problem).getUpperBoundCalculator());
+			} else {
+				initializeUpperBoundCalculator();
+			}
+			if (node.getLowerBoundCalculator() != null) {
+				this.setLowerBoundCalculator(node.getLowerBoundCalculator());
+			} else {
+				initializeLowerBoundCalculator();
+			}
+		} else {
+			initializeUpperBoundCalculator();
+			initializeLowerBoundCalculator();
+		}
 		this.changes = changes;
 		applyChanges(changes);
 
@@ -166,14 +182,25 @@ public class BinPackingNode implements DeepCopyableMutableBinPackingInstance, It
 		}
 		selectItem();
 	}
-
-	protected void initializeBoundCalculators() {
+	
+	protected void initializeUpperBoundCalculator() {
 		upperBoundCalculator = new SimpleFFUBCalculator();
+	}
+	
+	protected void initializeLowerBoundCalculator() {
 		lowerBoundCalculator = new SimpleFFLBCalculator();
+	}
+
+	public BoundCalculator<BinPackingNode, Integer> getUpperBoundCalculator() {
+		return this.upperBoundCalculator;
 	}
 
 	public void setUpperBoundCalculator(BoundCalculator<BinPackingNode, Integer> ubc) {
 		this.upperBoundCalculator = ubc;
+	}
+
+	public BoundCalculator<BinPackingNode, Integer> getLowerBoundCalculator() {
+		return this.lowerBoundCalculator;
 	}
 
 	public void setLowerBoundCalculator(BoundCalculator<BinPackingNode, Integer> lbc) {

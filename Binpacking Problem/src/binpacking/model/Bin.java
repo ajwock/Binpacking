@@ -103,4 +103,8 @@ public class Bin {
 		return true;
 	}
 
+	public void setPosition(Integer pos) {
+		this.position = pos;
+	}
+
 }

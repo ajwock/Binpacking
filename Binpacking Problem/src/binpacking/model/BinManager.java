@@ -8,6 +8,7 @@ import binpacking.branching.BinPackingNode;
 import binpacking.branching.SpeedyBoiNode;
 import binpacking.interfaces.BinPackingHueristic;
 import binpacking.interfaces.BinPackingInstance;
+import binpacking.interfaces.BinPackingSolution;
 import bnb.Branching;
 import bnb.OptimalSolutionException;
 
@@ -81,14 +82,14 @@ public class BinManager implements BinPackingInstance {
 		boxOfBins.add(k);
 	}
 
-	public long unrefined() {
+	public BinPackingModel unrefined() {
 		BinPackingNode root = new BinPackingNode(this);
-		return runOnNode(root).solutionValue;
+		return runOnNode(root);
 	}
 
-	public long fast() {
+	public BinPackingModel fast() {
 		BinPackingNode root = new SpeedyBoiNode(this);
-		return runOnNode(root).solutionValue;
+		return runOnNode(root);
 	}
 
 	public BinPackingModel runOnNode(BinPackingNode root) {
@@ -108,10 +109,10 @@ public class BinManager implements BinPackingInstance {
 		return model;
 	}
 
-	public long ffapprox() {
+	public BinPackingSolution ffapprox() {
 		BinPackingNode root = new BinPackingNode(this);
 		BinPackingHueristic hueristic = new FirstFitHueristic();
-		return runApproximationOnNode(root, hueristic).solutionValue;
+		return runApproximationOnNode(root, hueristic);
 	}
 
 	public BinPackingModel runApproximationOnNode(BinPackingNode node, BinPackingHueristic hueristic) {
