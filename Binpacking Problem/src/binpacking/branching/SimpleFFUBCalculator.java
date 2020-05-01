@@ -3,8 +3,13 @@ package binpacking.branching;
 import binpacking.interfaces.BinPackingSolution;
 import bnb.interfaces.BoundCalculator;
 
+/**
+ * Calculates the upper bound for the First Fit heuristic
+ * @author Drew Wock
+ *
+ */
 public class SimpleFFUBCalculator implements BoundCalculator<BinPackingNode, Integer> {
-	
+	/** the upper bound for the First Fit heuristic */
 	int upperBound;
 
 	@Override
@@ -21,7 +26,9 @@ public class SimpleFFUBCalculator implements BoundCalculator<BinPackingNode, Int
 		upperBound = instance.getModel().bestSolutionValue();
 		return upperBound;
 	}
-	
+	/**
+	 * Sets the lower bound to "-1" if an invalid bound is found
+	 */
 	public void invalidateBound() {
 		upperBound = -1;
 	}

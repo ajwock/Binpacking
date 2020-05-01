@@ -16,7 +16,8 @@ import binpacking.model.BinPackingModel;
 import general.interfaces.Change;
 
 /**
- * @author dzdt
+ * A type of BinPackingNode, except faster
+ * @author Drew Wock
  *
  */
 public class SpeedyBoiNode extends BinPackingNode implements DynamicBinPackingInstance {
