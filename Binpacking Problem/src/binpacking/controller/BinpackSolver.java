@@ -54,7 +54,11 @@ public class BinpackSolver {
 	public static void main(String args[]) throws IOException {
 		startBPProgram(args);
 	}
-
+	
+	/**
+	 * Reads the given arguments from the user and adjusts the program accordingly
+	 * @param args the given arguments from the user
+	 */
 	public static void resolveArgs(String args[]) {
 		if (args.length >= 1) {
 			// The input file
@@ -100,7 +104,11 @@ public class BinpackSolver {
 			System.exit(1);
 		}
 	}
-
+	
+	/**
+	 * Handles calling the appropriate bin packing solver mode chosen by the user
+	 * @return the optimal solution to the bin packing problem according to the method given by the user
+	 */
 	public static BinPackingSolution dispatch() {
 		switch (BinpackSolver.heuristic) {
 		case "basicbnb":
@@ -112,7 +120,12 @@ public class BinpackSolver {
 		}
 		return null;
 	}
-
+	
+	/**
+	 * Starts the bin packing solver with the given arguments given by the user
+	 * @param args the arguments given by the user
+	 * @return the optimal solution to the bin packing problem according to the method given by the user
+	 */
 	public static BinPackingSolution startBPProgram(String args[]) {
 		BinpackSolver.resolveArgs(args);
 		BinPackingSolution sol = BinpackSolver.dispatch();
@@ -121,7 +134,7 @@ public class BinpackSolver {
 	}
 
 	/**
-	 * The implementation of the BinpackSolver
+	 * Calls implementation of the basic BinpackSolver
 	 * 
 	 * @return the optimal bin packed solution
 	 */
@@ -131,14 +144,24 @@ public class BinpackSolver {
 		totalTime = System.currentTimeMillis() - startTime;
 		return k;
 	}
-
+	
+	/**
+	 * Calls implementation of the optimized BinpackSolver with the
+	 * optimized node implementation
+	 * 
+	 * @return the optimal bin packed solution
+	 */
 	private static BinPackingSolution fast() {
 		startTime = System.currentTimeMillis();
 		BinPackingSolution k= original.fast();
 		totalTime = System.currentTimeMillis() - startTime;
 		return k;
 	}
-
+	/**
+	 * Calls the first fit approximation of the bin packing solver
+	 * 
+	 * @return the best solution found by the first fit approximation
+	 */
 	private static BinPackingSolution firstFitApprox() {
 		startTime = System.currentTimeMillis();
 		BinPackingSolution k = original.ffapprox();

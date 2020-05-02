@@ -1,5 +1,11 @@
 package general.interfaces;
 
+/**
+ * An interface for classes that implement Change
+ * @author Drew Wock
+ *
+ * @param <T> the type of instance that is being changed
+ */
 public interface Change<T> {
 
 	/**

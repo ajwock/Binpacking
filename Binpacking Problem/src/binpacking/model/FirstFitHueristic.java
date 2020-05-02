@@ -11,6 +11,11 @@ import binpacking.interfaces.DynamicBinPackingInstance;
 import binpacking.interfaces.MutableBinPackingInstance;
 import general.interfaces.DeepCopyable;
 
+/**
+ * The implementation of the First Fit Heuristic
+ * @author Drew Wock
+ *
+ */
 public class FirstFitHueristic implements BinPackingHueristic {
 
 	/**

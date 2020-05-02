@@ -49,15 +49,15 @@ public class BinPackingNode implements DeepCopyableMutableBinPackingInstance, It
 	/** List of changes from its parent node */
 	List<Change<MutableBinPackingInstance>> changes;
 	
-	/**   */
+	/** The index of the next bin to be checked in the bin list */
 	int binIndex;
-	/** The next bin that */
+	/** The next bin that is being checked*/
 	Bin nextBin;
 	/** True if all the items have been packed, false otherwise */
 	boolean done;
 	/** True if this node is a leaf, false otherwise*/
 	boolean isLeaf;
-	
+
 	/** The upper bound */
 	int upperBound;
 	/** The lower bound */
@@ -68,14 +68,24 @@ public class BinPackingNode implements DeepCopyableMutableBinPackingInstance, It
 	int remainingItemWeight;
 	/** The remaining space of the bins */
 	int remainingSpace;
-
+	
+	/** The upper bound calculator for this node */
 	BoundCalculator<BinPackingNode, Integer> upperBoundCalculator;
+	/** The lower bound calculator for this node */
 	BoundCalculator<BinPackingNode, Integer> lowerBoundCalculator;
-
+	
+	/**
+	 * Returns the level of this node
+	 * @return the level of this node
+	 */
 	public int level() {
 		return level;
 	}
 	
+	/**
+	 * Creates a list of bins
+	 * @return the created list of bins
+	 */
 	public List<Bin> binList() {
 		// Adds an extra slot in case an addition need be made.
 		ArrayList<Bin> newList = new ArrayList<Bin>(binList.size() + 1);
@@ -344,20 +354,35 @@ public class BinPackingNode implements DeepCopyableMutableBinPackingInstance, It
 	public int lowerBound() {
 		return lowerBoundCalculator.bound(this);
 	}
-
+	
+	/**
+	 * Gets the remaining weight of all items that still  have to be packed
+	 * @return the remaining weight of all items that still  have to be packed
+	 */
 	public int getRemainingItemWeight() {
 		return remainingItemWeight;
 	}
-
+	
+	/**
+	 * Gets the remaining free space of all bins
+	 * @return the remaining free space of all bins
+	 */
 	public int getRemainingSpace() {
 		return remainingSpace;
 	}
-
+	
+	/**
+	 * Invalidates the upper bound and the lower bound by setting them both to -1
+	 */
 	public void invalidateBounds() {
 		upperBoundCalculator.invalidateBound();
 		lowerBoundCalculator.invalidateBound();
 	}
-
+	
+	/**
+	 * Sets the remaining weight of all items that still  have to be packed
+	 * @param weight the remaining weight of all items that still  have to be packed
+	 */
 	public void setRemainingItemWeight(int weight) {
 //		if (weight < 0) {
 //			throw new IllegalArgumentException();

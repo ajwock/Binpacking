@@ -13,20 +13,26 @@ import binpacking.interfaces.BinPackingSolution;
  *
  */
 public class OptimalSolutionException extends Exception {
-
+	
+	/** The optimal bin packing solution*/
 	BinPackingSolution solution;
-
+	
+	/**
+	 * Sets BinPackingSolution to the given solution
+	 * @param sln the given solution
+	 */
 	public OptimalSolutionException(BinPackingSolution sln) {
 		solution = sln;
 	}
-
+	
+	/**
+	 * Gets the optimal bin packing solution
+	 * @return the optimal bin packing solution
+	 */
 	public BinPackingSolution getSolution() {
 		return solution;
 	}
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 }

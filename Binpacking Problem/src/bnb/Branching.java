@@ -7,16 +7,21 @@ import bnb.interfaces.BranchingNode;
  * Note: Code duplication with branching methods is to reduce speed overhead as
  * much as possible.
  * 
- * @author Andrew Wock
+ * @author Drew Wock
  *
  */
 public class Branching {
-
+	
+	/** The number of times the program branched*/
 	int branches;
-
+	
+	/** Responsible for finding all the items in the optimal solution,
+	 * and what bins they're packed in */
 	TreeTracer treeTracer;
-
+	
+	/** The current upper bound*/
 	BoundType ubcalc;
+	/** The current lower bound */
 	BoundType lbcalc;
 	/**
 	 * Determines exact branching behavior.
@@ -78,22 +83,58 @@ public class Branching {
 		}
 
 	}
-
+	
+	/**
+	 * Creates a new branching object, with the traceTree being the only parameter,
+	 * the other two parameters are false by default
+	 * @param traceTree determines the value of traceTree in branching
+	 */
 	public Branching(boolean traceTree) {
 		this(traceTree, false, false);
 	}
-
+	
+	/**
+	 * Creates a new branching object with all of the parameters set to false
+	 */
 	public Branching() {
 		this(false);
 	}
-
+	
+	/**
+	 * An interface for calculating the bound
+	 * @author Drew Wock
+	 *
+	 */
 	private interface BoundType {
+		/**
+		 * Calculates the bounds for the given child by passing the upper
+		 * bound of the given parent onto it
+		 * @param parent the given parent
+		 * @param child the given child
+		 * @return the set upper bound of the child
+		 */
 		public int bound(BranchingNode parent, BranchingNode child);
 	}
-
+	
+	/**
+	 * An interface for the implementation of TreeTracer
+	 * @author Drew Wock
+	 *
+	 */
 	private interface TreeTracer {
+		/**
+		 * Traces the solution path down the tree starting at the given node
+		 * using the given upper and lower bounds
+		 * @param node the given node
+		 * @param lb the given lower bound
+		 * @param ub the given upper bound
+		 */
 		public void traceNode(BranchingNode node, int lb, int ub);
-
+		
+		/**
+		 * Traces the optimal solution path down the tree starting at the given node
+		 * @param node the given node
+		 */
 		public void traceNode(BranchingNode node);
 	}
 
@@ -101,13 +142,19 @@ public class Branching {
 	 * This class is used to print the branching tree as branching occurs. Useful
 	 * for debugging because of the real time updates.
 	 * 
-	 * @author Andrew Wock
+	 * @author Drew Wock
 	 *
 	 */
 	private class PrintingTreeTracer implements TreeTracer {
-
+		
+		/** The string builder object for the output of TreeTracer*/
 		StringBuilder sb;
-
+		
+		/**
+		 * Traces the given node, except adds it on to the given string
+		 * @param node the given node
+		 * @param ms the given string
+		 */
 		private void traceNodeMidString(BranchingNode node, StringBuilder ms) {
 			sb = new StringBuilder();
 			for (int i = 0; i < node.level(); i++) {
@@ -119,7 +166,7 @@ public class Branching {
 			sb.append("\n");
 			System.out.print(sb);
 		}
-
+		
 		public void traceNode(BranchingNode node, int lb, int ub) {
 			StringBuilder ms = new StringBuilder();
 			ms.append(lb);
@@ -133,11 +180,25 @@ public class Branching {
 		}
 
 	}
-
+	
+	/**
+	 * An interface for branching at a node
+	 * @author Drew Wock
+	 *
+	 */
 	private interface Brancher {
+		/**
+		 * Branches at the given node
+		 * @param node the given node
+		 */
 		public void branch(BranchingNode node);
 	}
-
+	
+	/**
+	 * Branches without keeping a tree tracer
+	 * @author Drew Wock
+	 *
+	 */
 	private class NoTraceBrancher implements Brancher {
 		/**
 		 * Note: A node is responsible for keeping track of possible children. The
@@ -160,7 +221,12 @@ public class Branching {
 			}
 		}
 	}
-
+	
+	/**
+	 * Branches while keeping track of a tree tracer
+	 * @author Drew Wock
+	 *
+	 */
 	private class TracingBrancher implements Brancher {
 		/**
 		 * Note: A node is responsible for keeping track of possible children. The
@@ -187,11 +253,20 @@ public class Branching {
 			}
 		}
 	}
-
+	
+	/**
+	 * Branches from the given node
+	 * @param node the given node
+	 * @throws OptimalSolutionException thrown if the optimal solution has already been found and branching is unnecessary
+	 */
 	public void branch(BranchingNode node) throws OptimalSolutionException {
 		brancher.branch(node);
 	}
-
+	
+	/**
+	 * Gets the number of branches that occurred in this instance
+	 * @return the number of branches that occurred in this instance
+	 */
 	public int getBranches() {
 		return branches;
 	}

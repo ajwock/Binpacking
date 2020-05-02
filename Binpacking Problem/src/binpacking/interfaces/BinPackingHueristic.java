@@ -1,5 +1,10 @@
 package binpacking.interfaces;
 
+/**
+ * The interface used by different bin packing heuristics
+ * @author Drew Wock
+ *
+ */
 public interface BinPackingHueristic {
 
 	/**

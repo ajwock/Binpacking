@@ -1,5 +1,9 @@
 package binpacking.model;
-
+/**
+ * Handles the representation of items
+ * @author Drew Wock and Gabe Reynolds
+ *
+ */
 public class Item implements Comparable<Item> {
 	/** The weight of this item */
 	public int weight;
@@ -9,7 +13,11 @@ public class Item implements Comparable<Item> {
 	public int itemNum;
 	/** The position of the item in the itemList. */
 	public Integer position;
-
+	
+	/**
+	 * Gets the position of this item
+	 * @return the position of this item
+	 */
 	public Integer getPosition() {
 		return position;
 	}
@@ -24,11 +32,19 @@ public class Item implements Comparable<Item> {
 		itemNum = num;
 		weight = w;
 	}
-
+	
+	/**
+	 * Gets the weight of this item
+	 * @return the weight of this item
+	 */
 	public int getWeight() {
 		return this.weight;
 	}
-
+	
+	/**
+	 * Gets the item number for this item
+	 * @return the item number for this item
+	 */
 	public int getItemNum() {
 		return this.itemNum;
 	}
@@ -70,7 +86,11 @@ public class Item implements Comparable<Item> {
 	public String toString() {
 		return "(Item: " + itemNum + " " + weight + ")";
 	}
-
+	
+	/**
+	 * Sets the position of this item to the given position
+	 * @param pos the given position
+	 */
 	public void setPosition(int pos) {
 		this.position = pos;
 	}
