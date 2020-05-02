@@ -64,6 +64,7 @@ public class SnapReader {
 				} else
 					scan.nextLine();
 			}
+			scan.close();
 		} catch (Exception e) {
 			// throw new IllegalArgumentException("File not found: " + e.getMessage());
 			throw e;

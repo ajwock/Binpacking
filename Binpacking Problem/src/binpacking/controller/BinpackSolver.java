@@ -1,6 +1,12 @@
 package binpacking.controller;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import binpacking.interfaces.BinPackingSolution;
 import binpacking.model.Bin;
@@ -27,6 +33,8 @@ public class BinpackSolver {
 	static boolean traceTree = false;
 	/** True if there should be no output. */
 	static boolean silent = false;
+	/** True if only the runtime should be printed. */
+	static boolean runtime = false;
 	/** The chosen heuristic to run for this program */
 	static String heuristic = "basicbnb";
 
@@ -79,6 +87,11 @@ public class BinpackSolver {
 				case "--silent":
 					silent = true;
 					traceTree = false;
+					break;
+				case "--runtime":
+					silent = true;
+					traceTree = false;
+					runtime = true;
 					break;
 				case "-v":
 					traceTree = true;
@@ -145,6 +158,10 @@ public class BinpackSolver {
 		totalTime = System.currentTimeMillis() - startTime;
 		return k;
 	}
+	
+	public static void printRuntime() {
+		System.out.print(totalTime);
+	}
 
 	/**
 	 * Used to output information concerning both the solved knapsack, the number of
@@ -168,6 +185,8 @@ public class BinpackSolver {
 					System.out.println(bin);
 				}
 			}
+		} else if (runtime) {
+			printRuntime();
 		}
 	}
 }

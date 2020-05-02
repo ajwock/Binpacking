@@ -13,8 +13,8 @@ public class SimpleFFUBCalculator implements BoundCalculator<BinPackingNode, Int
 		// want to see it multiple times.
 		if (upperBound == -1) {
 			// Apply an appromixation hueristic to the remaining instance.
-			BinPackingNode temp = new BinPackingNode(instance);
-			BinPackingSolution result = instance.getHueristic().apply(temp);
+			//BinPackingNode temp = new BinPackingNode(instance);
+			BinPackingSolution result = instance.getHueristic().apply(instance);
 			/** Pass in the result as a possible solution. */
 			instance.getModel().checkSolution(result);
 		}
