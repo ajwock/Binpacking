@@ -2,8 +2,13 @@ package binpacking.branching;
 
 import bnb.interfaces.BoundCalculator;
 
+/**
+ * Calculates the lower bound using the First Fit heuristic
+ * @author Drew Wock
+ *
+ */
 public class SimpleFFLBCalculator implements BoundCalculator<BinPackingNode, Integer> {
-
+	/** The lower bound for the First Fit heuristic*/
 	int lowerBound;
 
 	@Override
@@ -16,6 +21,9 @@ public class SimpleFFLBCalculator implements BoundCalculator<BinPackingNode, Int
 		return lowerBound;
 	}
 
+	/**
+	 * Sets the lower bound to "-1" if an invalid bound is found
+	 */
 	public void invalidateBound() {
 		lowerBound = -1;
 	}

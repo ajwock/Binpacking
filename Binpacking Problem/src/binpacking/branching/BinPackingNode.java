@@ -32,27 +32,41 @@ public class BinPackingNode implements DeepCopyableMutableBinPackingInstance, It
 	int level;
 	/** capacity of an empty bin */
 	int binSize;
+	/** The type of heuristic/algorithm that will be used to solve the binpacking problem*/
 	BinPackingModel model;
+	/** The master problem instance that this node is a part of*/
 	BinPackingInstance problem;
 
 	/** Item that is chosen by the parent instance to create this node */
 	Item item;
-
+	
+	/** The list of bins */
 	List<Bin> binList;
-
+	
+	/** the list of all items */
 	public List<Item> itemList;
-
+	
+	/** List of changes from its parent node */
 	List<Change<MutableBinPackingInstance>> changes;
-
+	
+	/**   */
 	int binIndex;
+	/** The next bin that */
 	Bin nextBin;
+	/** True if all the items have been packed, false otherwise */
 	boolean done;
+	/** True if this node is a leaf, false otherwise*/
 	boolean isLeaf;
-
+	
+	/** The upper bound */
 	int upperBound;
+	/** The lower bound */
 	int lowerBound;
+	/** The type of heuristic used to calculate the solution */
 	BinPackingHueristic hueristic;
+	/** The remaining combined weight of all items not yet packed*/
 	int remainingItemWeight;
+	/** The remaining space of the bins */
 	int remainingSpace;
 
 	BoundCalculator<BinPackingNode, Integer> upperBoundCalculator;
@@ -61,7 +75,7 @@ public class BinPackingNode implements DeepCopyableMutableBinPackingInstance, It
 	public int level() {
 		return level;
 	}
-
+	
 	public List<Bin> binList() {
 		// Adds an extra slot in case an addition need be made.
 		ArrayList<Bin> newList = new ArrayList<Bin>(binList.size() + 1);
@@ -74,11 +88,19 @@ public class BinPackingNode implements DeepCopyableMutableBinPackingInstance, It
 		}
 		return newList;
 	}
-
+	
+	/**
+	 * Directly returns this node's bin list
+	 * @return this node's bin list
+	 */
 	public List<Bin> binListDirect() {
 		return binList;
 	}
 
+	/**
+	 * Gets the complete item list
+	 * @return the complete item list
+	 */
 	public List<Item> itemList() {
 //		ArrayList<Item> newList = new ArrayList<Item>(itemList.size());
 //		for (Item item : itemList) {
@@ -88,7 +110,11 @@ public class BinPackingNode implements DeepCopyableMutableBinPackingInstance, It
 //		return newList;
 		return itemList;
 	}
-
+	
+	/**
+	 * Gets the list of unpacked items
+	 * @return the list of unpacked item
+	 */
 	public List<Item> remainingItemList() {
 		List<Item> smallList = new ArrayList<Item>(itemList.size() - level - 1);
 		int top = itemList.size() - level;
@@ -97,17 +123,28 @@ public class BinPackingNode implements DeepCopyableMutableBinPackingInstance, It
 		}
 		return smallList;
 	}
-
+	
+	/**
+	 * The size of a bin
+	 * @return the size of a bin
+	 */
 	public int binSize() {
 		return binSize;
 	}
-
+	
+	/**
+	 * Updates the node with the given changes
+	 * @param changes the given changes
+	 */
 	public void applyChanges(List<Change<MutableBinPackingInstance>> changes) {
 		for (Change<MutableBinPackingInstance> change : changes) {
 			change.applyChange(this);
 		}
 	}
-
+	
+	/**
+	 * Figures out the next item to be added to this instance
+	 */
 	public void selectItem() {
 		if (!isLeaf) {
 			item = itemList.get(itemList.size() - level - 1);
@@ -117,7 +154,11 @@ public class BinPackingNode implements DeepCopyableMutableBinPackingInstance, It
 			item = null;
 		}
 	}
-
+	
+	/**
+	 * Sorts the given list of items in descending order and then assigns them positions in said order 
+	 * @param items the given list of items
+	 */
 	public void assignItemPositions(List<Item> items) {
 		Collections.sort(items);
 		for (int i = 0; i < items.size(); i++) {
@@ -183,26 +224,48 @@ public class BinPackingNode implements DeepCopyableMutableBinPackingInstance, It
 		selectItem();
 	}
 	
+	/**
+	 * Initializes the upper bound calculator
+	 */
 	protected void initializeUpperBoundCalculator() {
 		upperBoundCalculator = new SimpleFFUBCalculator();
 	}
 	
+	/**
+	 * Initializes the lower bound calculator
+	 */
 	protected void initializeLowerBoundCalculator() {
 		lowerBoundCalculator = new SimpleFFLBCalculator();
 	}
-
+	
+	/**
+	 * Gets the upper bound calculator
+	 * @return the upper bound calculator
+	 */
 	public BoundCalculator<BinPackingNode, Integer> getUpperBoundCalculator() {
 		return this.upperBoundCalculator;
 	}
-
+	
+	/**
+	 * Sets the upper bound calculator to the given one
+	 * @param ubc the upper bound calculator to set this to
+	 */
 	public void setUpperBoundCalculator(BoundCalculator<BinPackingNode, Integer> ubc) {
 		this.upperBoundCalculator = ubc;
 	}
-
+	
+	/**
+	 * Gets the lower bound calculator
+	 * @return the lower bound calculator
+	 */
 	public BoundCalculator<BinPackingNode, Integer> getLowerBoundCalculator() {
 		return this.lowerBoundCalculator;
 	}
-
+	
+	/**
+	 * Sets the lower bound calculator to the given one
+	 * @param lbc the lower bound calculator to set this to
+	 */
 	public void setLowerBoundCalculator(BoundCalculator<BinPackingNode, Integer> lbc) {
 		this.lowerBoundCalculator = lbc;
 	}
@@ -304,6 +367,7 @@ public class BinPackingNode implements DeepCopyableMutableBinPackingInstance, It
 
 	/**
 	 * Only removes the item weight.
+	 * @param index the index of the item whose weight will be removed
 	 */
 	@Override
 	public Item removeItem(int index) {
@@ -314,6 +378,7 @@ public class BinPackingNode implements DeepCopyableMutableBinPackingInstance, It
 
 	/**
 	 * Simply adds the weight back.
+	 * @param addition the item whose weight is to be added back
 	 */
 	@Override
 	public void addItem(Item addition) {
@@ -321,7 +386,11 @@ public class BinPackingNode implements DeepCopyableMutableBinPackingInstance, It
 //		itemList.add(addition);
 		setRemainingItemWeight(remainingItemWeight + addition.getWeight());
 	}
-
+	
+	/**
+	 * Sets the remaining space to the given amount
+	 * @param space the given amount of remaining space
+	 */
 	public void setRemainingSpace(int space) {
 
 		this.remainingSpace = space;
@@ -367,7 +436,11 @@ public class BinPackingNode implements DeepCopyableMutableBinPackingInstance, It
 	public boolean hasNext() {
 		return !done;
 	}
-
+	
+	/**
+	 * Adds the next item to the next available bin
+	 * @return the bin where the item was added to
+	 */
 	public Bin nextBin() {
 		Bin currBin = nextBin;
 		boolean hasNextBin = false;
@@ -384,7 +457,18 @@ public class BinPackingNode implements DeepCopyableMutableBinPackingInstance, It
 		}
 		return currBin;
 	}
-
+	
+	/**
+	 * Creates a new node with the given parameters
+	 * @param problem The master problem instance that this node is a part of
+	 * @param model The type of heuristic/algorithm that will be used to solve the binpacking problem
+	 * @param lvl The level of the tree that this node is at.
+	 * @param changes List of changes from its parent node
+	 * @param hueristic The type of heuristic used to calculate the solution
+	 * @param remainingItemWeight The remaining combined weight of all items not yet packed
+	 * @param remainingSpace  The remaining space of the bins
+	 * @return
+	 */
 	public BinPackingNode newNode(BinPackingInstance problem, BinPackingModel model, int lvl,
 			List<Change<MutableBinPackingInstance>> changes, BinPackingHueristic hueristic, int remainingItemWeight,
 			int remainingSpace) {
@@ -405,15 +489,27 @@ public class BinPackingNode implements DeepCopyableMutableBinPackingInstance, It
 		}
 		throw new NoSuchElementException();
 	}
-
+	
+	/**
+	 * Returns true if this node is a leaf, false otherwise
+	 * @return true if this node is a leaf, false otherwise
+	 */
 	public boolean isLeaf() {
 		return isLeaf;
 	}
-
+	
+	/**
+	 * Gets the level that this node is at
+	 * @return the level that this node is at
+	 */
 	public int getLevel() {
 		return level;
 	}
-
+	
+	/**
+	 * Sets the level of this instance to the given level
+	 * @param l the given level
+	 */
 	public void setLevel(int l) {
 		level = l;
 	}
@@ -422,19 +518,34 @@ public class BinPackingNode implements DeepCopyableMutableBinPackingInstance, It
 	public List<Bin> getSolution() {
 		return binList;
 	}
-
+	
+	/**
+	 * Returns the binpacking model this node is a part of
+	 * @return the binpacking model this node is a part of
+	 */
 	public BinPackingModel getModel() {
 		return model;
 	}
-
+	
+	/**
+	 * Returns the level, changes, and the best solution value of this instance
+	 */
 	public String toString() {
 		return "(Level " + level + " Node: " + changes + " solution: " + model.bestSolutionValue() + ")";
 	}
 
+	/**
+	 * Returns the heuristic used 
+	 * @return the heuristic used
+	 */
 	public BinPackingHueristic getHueristic() {
 		return hueristic;
 	}
-
+	
+	/**
+	 * Creates a deep copy of this node
+	 * @return a deep copy of this node
+	 */
 	public BinPackingNode deepCopy() {
 		return new BinPackingNode(this);
 	}

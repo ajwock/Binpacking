@@ -8,7 +8,7 @@ import binpacking.model.BinManager;
 import binpacking.model.Item;
 
 /**
- * Handles all input for .snap files
+ * Handles all input for .bp files
  * 
  * @author Gabe Reynolds
  *

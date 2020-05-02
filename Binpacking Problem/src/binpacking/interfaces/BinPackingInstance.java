@@ -6,8 +6,8 @@ import binpacking.model.Bin;
 import binpacking.model.Item;
 
 /**
- * 
- * @author dzdt
+ * An interface for BinPackingInstance objects
+ * @author Drew Wock
  *
  */
 public interface BinPackingInstance {
