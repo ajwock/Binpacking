@@ -4,7 +4,8 @@ maxSize=$2
 stepSize=$3
 dataPerSize=$4
 output=$1
-runtype=$5
+runtype=$6
+capacityRatio=$5
 nl=$'\n'
 
 rm output
@@ -15,7 +16,7 @@ do
   for ((j = 1; j <= $dataPerSize; j++))
   do
     filename="testfiles/temp/test${i}_no${j}.bp"
-    python "testfiles/generateInstance.py" $filename $i
+    python "testfiles/generateInstance.py" $filename $capacityRatio $i
     runtime=$(timeout 100s $PROGRAM $filename --runtime $runtype \
                 || echo "100000")
     "/bin/echo" -n ",$runtime"

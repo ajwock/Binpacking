@@ -16,7 +16,10 @@ import binpacking.model.BinPackingModel;
 import general.interfaces.Change;
 
 /**
- * A type of BinPackingNode, except faster
+ * A type of BinPackingNode, except faster.
+ * 
+ * Uses
+ * 
  * @author Drew Wock
  *
  */
