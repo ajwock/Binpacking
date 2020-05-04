@@ -74,7 +74,8 @@ The amount and type of data is determined by a set of required arguments.
 For each size <- n * stepSize where size < maxSize and n >= 1, dataPerSize datapoints
 are generated where each instance used has a capacity of size * capacityRatio / 100.
 
-This script is highly dependent on it's location in the file system. 
+To set up this script to run locally, you need to change line 1 of runscript.sh so
+that it points to your copy of Binpacking.jar.
 
 REQUIRED:
 
