@@ -3,7 +3,8 @@ package binpacking.branching;
 import bnb.interfaces.BoundCalculator;
 
 /**
- * Calculates the lower bound using the First Fit heuristic
+ * Calculates the lower bound using item weights and remaining space in Bins.
+ * 
  * @author Drew Wock
  *
  */

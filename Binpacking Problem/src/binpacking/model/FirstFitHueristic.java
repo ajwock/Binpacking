@@ -12,7 +12,8 @@ import binpacking.interfaces.MutableBinPackingInstance;
 import general.interfaces.DeepCopyable;
 
 /**
- * The implementation of the First Fit Heuristic
+ * The implementation of the First Fit Heuristic.
+ * 
  * @author Drew Wock
  *
  */

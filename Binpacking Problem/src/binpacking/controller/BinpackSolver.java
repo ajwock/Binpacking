@@ -38,16 +38,34 @@ public class BinpackSolver {
 	/** The chosen heuristic to run for this program */
 	static String heuristic = "basicbnb";
 
-	public static final String USAGE = "Usage: java -jar BinpackSolver.jar path/to/your/file [method] [-q]\n"
-			+ "Must include an input file argument.\n"
-			+ "optional \"method\" argument determines how the BP problem is solved.\n" + "Methods are:\n"
-			+ "  -simplebnb\n"
-			+ "      Runs an naive implementation of branch and bound.  Guaranteed optimal solution, and rather slow.\n"
-			+ "  -fastbnb\n"
-			+ "      Runs an advanced implementation of branch and bound.  Guaranteed optimal solution, and relatively fast.\n"
-			+ "      Currently in development, buggy.\n" + "  -ffapprox\n"
-			+ "      Runs a first-fit approximation.  Suboptimal solution but very fast.\n"
-			+ "The optional -q argument omits the solution from the output to reduce output size.";
+	public static final String USAGE = "Usage:\n\n" + 
+			"    java -jar Binpacking.jar filename [-q|v] [--silent|runtime]\n" + 
+			"                                   [-simplebnb|-fastbnb|-ffapprox]\n" + 
+			"\n" + 
+			"This program generates some solution to a binpacking instance contained in \n" + 
+			"the file specified as filename.  The type of algorithm used to produce a\n" + 
+			"solution can be specified using (default) -simplebnb, -fastbnb, or -ffapprox.\n" + 
+			"\n" + 
+			"REQUIRED:\n" + 
+			"\n" + 
+			"    filename    Name of the file containing the binpacking instance.\n" + 
+			"\n" + 
+			"OPTIONS:\n" + 
+			"\n" + 
+			"    -q         Suppress solution output.\n" + 
+			"\n" + 
+			"    -v         Show branching tree info if appropriate.\n" + 
+			"\n" + 
+			"    --silent   Suppress all output.\n" + 
+			"\n" + 
+			"    --runtime  Suppress output except for program runtime.\n" + 
+			"\n" + 
+			"    -simplebnb Use old branch and bound algorithm.\n" + 
+			"\n" + 
+			"    -fastbnb   Use new, faster branch and bound algorithm.\n" + 
+			"\n" + 
+			"    -ffapprox  Use first-fit descending approximation.\n" +
+			"";
 
 	/**
 	 * Takes the given input file, and creates a knapsack using the chosen

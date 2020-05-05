@@ -4,7 +4,8 @@ import binpacking.interfaces.BinPackingSolution;
 import bnb.interfaces.BoundCalculator;
 
 /**
- * Calculates the upper bound for the First Fit heuristic
+ * Calculates the upper bound for the First Fit heuristic.
+ * 
  * @author Drew Wock
  *
  */
