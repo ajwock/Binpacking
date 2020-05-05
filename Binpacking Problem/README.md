@@ -10,7 +10,7 @@ implementation.
 To run this project, the user needs a jar file.  You can download the latest
 release with this command:
 
-	curl -O https://github.ncsu.edu/gjreynol/CSC-495-Group/releases/download/beta-v1.0/Binpacking.jar
+	wget https://github.com/ajwock/Binpacking/releases/download/beta-v1.0/Binpacking.jar
 
 From there, the program can be run like this:
 
@@ -92,4 +92,6 @@ REQUIRED:
 	
 	hueristic			Hueristic argument to test with:  -simplebnb, -fastbnb
 							-ffapprox.
+							
+# Data Structures
 							
