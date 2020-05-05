@@ -10,7 +10,7 @@ implementation.
 To run this project, the user needs a jar file.  You can download the latest
 release with this command:
 
-	wget https://github.com/ajwock/Binpacking/releases/download/beta-v1.0/Binpacking.jar
+	wget https://github.com/ajwock/Binpacking/releases/download/beta-v1.1/Binpacking.jar
 
 From there, the program can be run like this:
 
